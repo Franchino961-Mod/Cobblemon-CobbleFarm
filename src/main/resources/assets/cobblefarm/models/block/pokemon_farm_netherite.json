@@ -1,0 +1,7 @@
+{
+	"parent": "cobblefarm:block/farm_preset",
+	"textures": {
+		"particle": "minecraft:block/netherite_block",
+		"material": "minecraft:block/netherite_block"
+	}
+}
