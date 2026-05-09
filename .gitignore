@@ -115,6 +115,7 @@ run-*/
 .minecraft/
 server/
 client/
+!src/client/
 world/
 saves/
 testworld/
