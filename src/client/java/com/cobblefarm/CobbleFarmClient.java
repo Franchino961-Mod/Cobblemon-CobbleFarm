@@ -2,7 +2,6 @@ package com.cobblefarm;
 
 import com.cobblefarm.screen.CobbleFarmScreenHandlers;
 import com.cobblefarm.screen.PokemonFarmScreen;
-import com.cobblefarm.screen.PokemonFarmScreenHandler;
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
 
