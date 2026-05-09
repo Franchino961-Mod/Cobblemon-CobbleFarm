@@ -18,12 +18,11 @@ public class CobbleFarmBlockEntities {
                 CobbleFarm.id("pokemon_farm"),
                 FabricBlockEntityTypeBuilder.create(
                         (pos, state) -> {
-                            // Determine tier from block
                             FarmTier tier = FarmTier.IRON;
-                            if (state.getBlock() == CobbleFarmBlocks.POKEMON_FARM_GOLD) tier = FarmTier.GOLD;
-                            else if (state.getBlock() == CobbleFarmBlocks.POKEMON_FARM_DIAMOND) tier = FarmTier.DIAMOND;
-                            else if (state.getBlock() == CobbleFarmBlocks.POKEMON_FARM_EMERALD) tier = FarmTier.EMERALD;
-                            else if (state.getBlock() == CobbleFarmBlocks.POKEMON_FARM_NETHERITE) tier = FarmTier.NETHERITE;
+                            if (state.isOf(CobbleFarmBlocks.POKEMON_FARM_GOLD)) tier = FarmTier.GOLD;
+                            else if (state.isOf(CobbleFarmBlocks.POKEMON_FARM_DIAMOND)) tier = FarmTier.DIAMOND;
+                            else if (state.isOf(CobbleFarmBlocks.POKEMON_FARM_EMERALD)) tier = FarmTier.EMERALD;
+                            else if (state.isOf(CobbleFarmBlocks.POKEMON_FARM_NETHERITE)) tier = FarmTier.NETHERITE;
                             return new PokemonFarmBlockEntity(pos, state, tier);
                         },
                         CobbleFarmBlocks.POKEMON_FARM_IRON,
