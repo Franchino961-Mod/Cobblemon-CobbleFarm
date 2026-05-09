@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": ["NNN", "NFN", "NNN"],
+  "key": {
+    "N": { "item": "minecraft:netherite_ingot" },
+    "F": { "item": "cobblefarm:pokemon_farm_emerald" }
+  },
+  "result": { "item": "cobblefarm:pokemon_farm_netherite", "count": 1 }
+}
