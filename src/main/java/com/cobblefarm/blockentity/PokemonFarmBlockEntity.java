@@ -3,25 +3,23 @@ package com.cobblefarm.blockentity;
 import com.cobblefarm.block.FarmTier;
 import com.cobblefarm.item.CapturedPokemonItem;
 import com.cobblefarm.loot.PokemonLootHelper;
-import com.cobblefarm.network.CobbleFarmNetworking;
 import com.cobblefarm.screen.PokemonFarmScreenHandler;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.PacketByteBuf;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
+import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -31,29 +29,14 @@ import java.util.List;
 
 public class PokemonFarmBlockEntity extends BlockEntity implements NamedScreenHandlerFactory {
 
-    // -------------------------------------------------------------------------
-    // Fields
-    // -------------------------------------------------------------------------
-
     private final FarmTier tier;
-
-    /** Slot 0: the inserted CapturedPokemonItem. */
     private final SimpleInventory pokemonSlot = new SimpleInventory(1);
-
-    /** Internal item buffer. */
     private final DefaultedList<ItemStack> buffer;
 
     private boolean isPaused = false;
     private int currentTick = 0;
-
-    /** Shared with the ScreenHandler for progress bar sync. */
     private final PropertyDelegate propertyDelegate;
-    // Index 0 = currentTick, Index 1 = ticksPerCycle, Index 2 = isPaused (0/1), Index 3 = bufferCount
     private int bufferItemCount = 0;
-
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
 
     public PokemonFarmBlockEntity(BlockPos pos, BlockState state, FarmTier tier) {
         super(CobbleFarmBlockEntities.POKEMON_FARM, pos, state);
@@ -82,10 +65,6 @@ public class PokemonFarmBlockEntity extends BlockEntity implements NamedScreenHa
         };
     }
 
-    // -------------------------------------------------------------------------
-    // Tick (server-side only — registered via BlockEntityTicker in the block)
-    // -------------------------------------------------------------------------
-
     public void tick(World world, BlockPos pos, BlockState state) {
         if (world.isClient) return;
         if (isPaused) return;
@@ -100,7 +79,6 @@ public class PokemonFarmBlockEntity extends BlockEntity implements NamedScreenHa
             produceDrop(world, pokemon);
         }
 
-        // Try push to container below every 20 ticks to avoid hopper-lag
         if (world.getTime() % 20 == 0) {
             pushToContainerBelow((ServerWorld) world, pos);
         }
@@ -122,19 +100,14 @@ public class PokemonFarmBlockEntity extends BlockEntity implements NamedScreenHa
         updateBufferCount();
     }
 
-    // -------------------------------------------------------------------------
-    // Buffer management
-    // -------------------------------------------------------------------------
-
     private void addToBuffer(ItemStack incoming) {
         int remaining = incoming.getCount();
 
-        // Try to merge into existing stacks first
         for (int i = 0; i < buffer.size(); i++) {
             if (remaining <= 0) break;
             ItemStack existing = buffer.get(i);
             if (existing.isEmpty()) continue;
-            if (ItemStack.canCombine(existing, incoming)) {
+            if (ItemStack.areItemsAndComponentsEqual(existing, incoming)) {
                 int space = existing.getMaxCount() - existing.getCount();
                 int transfer = Math.min(space, remaining);
                 existing.increment(transfer);
@@ -142,7 +115,6 @@ public class PokemonFarmBlockEntity extends BlockEntity implements NamedScreenHa
             }
         }
 
-        // Fill empty slots
         for (int i = 0; i < buffer.size(); i++) {
             if (remaining <= 0) break;
             if (buffer.get(i).isEmpty()) {
@@ -152,7 +124,6 @@ public class PokemonFarmBlockEntity extends BlockEntity implements NamedScreenHa
                 remaining -= copy.getCount();
             }
         }
-        // If remaining > 0, buffer is full — items are lost (production pauses next cycle)
     }
 
     private void updateBufferCount() {
@@ -162,20 +133,15 @@ public class PokemonFarmBlockEntity extends BlockEntity implements NamedScreenHa
         }
     }
 
-    // -------------------------------------------------------------------------
-    // Output to container below
-    // -------------------------------------------------------------------------
-
     private void pushToContainerBelow(ServerWorld world, BlockPos pos) {
         BlockPos below = pos.down();
         var belowBe = world.getBlockEntity(below);
-        if (!(belowBe instanceof net.minecraft.inventory.Inventory targetInv)) return;
+        if (!(belowBe instanceof Inventory targetInv)) return;
 
         for (int i = 0; i < buffer.size(); i++) {
             ItemStack stack = buffer.get(i);
             if (stack.isEmpty()) continue;
 
-            // Try to insert into target inventory
             for (int slot = 0; slot < targetInv.size(); slot++) {
                 if (!targetInv.isValid(slot, stack)) continue;
 
@@ -185,7 +151,7 @@ public class PokemonFarmBlockEntity extends BlockEntity implements NamedScreenHa
                     buffer.set(i, ItemStack.EMPTY);
                     targetInv.markDirty();
                     break;
-                } else if (ItemStack.canCombine(targetStack, stack)) {
+                } else if (ItemStack.areItemsAndComponentsEqual(targetStack, stack)) {
                     int space = targetStack.getMaxCount() - targetStack.getCount();
                     if (space > 0) {
                         int transfer = Math.min(space, stack.getCount());
@@ -201,24 +167,14 @@ public class PokemonFarmBlockEntity extends BlockEntity implements NamedScreenHa
         updateBufferCount();
     }
 
-    // -------------------------------------------------------------------------
-    // Drop contents on block break
-    // -------------------------------------------------------------------------
-
     public void dropContents(World world, BlockPos pos) {
-        // Drop the Pokémon item
         ItemStack pokemon = pokemonSlot.getStack(0);
         if (!pokemon.isEmpty()) {
-            net.minecraft.item.ItemScatterer.spawn(world, pos, pokemonSlot);
+            ItemScatterer.spawn(world, pos, pokemonSlot);
         }
-        // Drop buffer
         SimpleInventory bufferInv = new SimpleInventory(buffer.toArray(new ItemStack[0]));
-        net.minecraft.item.ItemScatterer.spawn(world, pos, bufferInv);
+        ItemScatterer.spawn(world, pos, bufferInv);
     }
-
-    // -------------------------------------------------------------------------
-    // Pause toggle (called from networking)
-    // -------------------------------------------------------------------------
 
     public void togglePause() {
         isPaused = !isPaused;
@@ -226,10 +182,6 @@ public class PokemonFarmBlockEntity extends BlockEntity implements NamedScreenHa
     }
 
     public boolean isPaused() { return isPaused; }
-
-    // -------------------------------------------------------------------------
-    // Pokémon slot access
-    // -------------------------------------------------------------------------
 
     public SimpleInventory getPokemonSlot() { return pokemonSlot; }
 
@@ -239,43 +191,34 @@ public class PokemonFarmBlockEntity extends BlockEntity implements NamedScreenHa
 
     public PropertyDelegate getPropertyDelegate() { return propertyDelegate; }
 
-    // -------------------------------------------------------------------------
-    // NBT serialisation
-    // -------------------------------------------------------------------------
-
     @Override
-    protected void writeNbt(NbtCompound nbt) {
-        super.writeNbt(nbt);
-        nbt.put("pokemon_slot", pokemonSlot.getStack(0).writeNbt(new NbtCompound()));
+    protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+        super.writeNbt(nbt, registryLookup);
+        nbt.put("pokemon_slot", pokemonSlot.getStack(0).encode(registryLookup));
         nbt.putBoolean("is_paused", isPaused);
         nbt.putInt("current_tick", currentTick);
 
-        // Serialise buffer
         NbtCompound bufferNbt = new NbtCompound();
-        Inventories.writeNbt(bufferNbt, buffer);
+        Inventories.writeNbt(bufferNbt, buffer, registryLookup);
         nbt.put("buffer", bufferNbt);
     }
 
     @Override
-    public void readNbt(NbtCompound nbt) {
-        super.readNbt(nbt);
+    protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+        super.readNbt(nbt, registryLookup);
 
         if (nbt.contains("pokemon_slot")) {
-            pokemonSlot.setStack(0, ItemStack.fromNbt(nbt.getCompound("pokemon_slot")));
+            pokemonSlot.setStack(0, ItemStack.fromNbt(registryLookup, nbt.getCompound("pokemon_slot")).orElse(ItemStack.EMPTY));
         }
         isPaused = nbt.getBoolean("is_paused");
         currentTick = nbt.getInt("current_tick");
 
         if (nbt.contains("buffer")) {
-            Inventories.readNbt(nbt.getCompound("buffer"), buffer);
+            Inventories.readNbt(nbt.getCompound("buffer"), buffer, registryLookup);
         }
 
         updateBufferCount();
     }
-
-    // -------------------------------------------------------------------------
-    // Screen factory
-    // -------------------------------------------------------------------------
 
     @Override
     public Text getDisplayName() {
