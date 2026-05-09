@@ -17,6 +17,5 @@ public class CobbleFarmItems {
 
     public static void register() {
         CobbleFarm.LOGGER.info("Registering CobbleFarm items...");
-        // Static initialisation handles registration above
     }
 }
