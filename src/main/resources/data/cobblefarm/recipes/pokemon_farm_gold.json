@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": ["GGG", "GFG", "GGG"],
+  "key": {
+    "G": { "item": "minecraft:gold_ingot" },
+    "F": { "item": "cobblefarm:pokemon_farm_iron" }
+  },
+  "result": { "item": "cobblefarm:pokemon_farm_gold", "count": 1 }
+}
