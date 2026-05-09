@@ -1,7 +1,7 @@
 package com.cobblefarm.block;
 
 import com.cobblefarm.blockentity.PokemonFarmBlockEntity;
-import com.cobblefarm.item.CapturedPokemonItem;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
@@ -12,7 +12,9 @@ import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
-import net.minecraft.util.*;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.BlockMirror;
+import net.minecraft.util.BlockRotation;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -22,13 +24,19 @@ import org.jetbrains.annotations.Nullable;
 public class PokemonFarmBlock extends BlockWithEntity {
 
     public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
+    public static final MapCodec<PokemonFarmBlock> CODEC = createCodec(settings -> new PokemonFarmBlock(FarmTier.IRON, settings));
 
     private final FarmTier tier;
 
-    public PokemonFarmBlock(FarmTier tier, Settings settings) {
+    public PokemonFarmBlock(FarmTier tier, AbstractBlock.Settings settings) {
         super(settings);
         this.tier = tier;
-        setDefaultState(getStateManager().getDefaultState().with(FACING, Direction.NORTH));
+        this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH));
+    }
+
+    @Override
+    protected MapCodec<? extends BlockWithEntity> getCodec() {
+        return CODEC;
     }
 
     public FarmTier getTier() {
@@ -43,7 +51,7 @@ public class PokemonFarmBlock extends BlockWithEntity {
     @Nullable
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing().getOpposite());
+        return this.getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing().getOpposite());
     }
 
     @Override
@@ -68,8 +76,7 @@ public class PokemonFarmBlock extends BlockWithEntity {
     }
 
     @Override
-    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player,
-                              Hand hand, BlockHitResult hit) {
+    protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
         if (!world.isClient) {
             NamedScreenHandlerFactory factory = state.createScreenHandlerFactory(world, pos);
             if (factory != null) {
@@ -80,12 +87,10 @@ public class PokemonFarmBlock extends BlockWithEntity {
     }
 
     @Override
-    public void onStateReplaced(BlockState state, World world, BlockPos pos,
-                                BlockState newState, boolean moved) {
+    public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
         if (!state.isOf(newState.getBlock())) {
             BlockEntity be = world.getBlockEntity(pos);
             if (be instanceof PokemonFarmBlockEntity farm) {
-                // Drop captured Pokémon item and buffer contents
                 farm.dropContents(world, pos);
             }
             super.onStateReplaced(state, world, pos, newState, moved);
@@ -94,13 +99,9 @@ public class PokemonFarmBlock extends BlockWithEntity {
 
     @Nullable
     @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state,
-                                                                   BlockEntityType<T> type) {
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
         if (world.isClient) return null;
-        return (w, pos, s, be) -> {
-            if (be instanceof PokemonFarmBlockEntity farm) {
-                farm.tick(w, pos, s);
-            }
-        };
+        return validateTicker(type, com.cobblefarm.blockentity.CobbleFarmBlockEntities.POKEMON_FARM,
+                (w, pos, s, be) -> be.tick(w, pos, s));
     }
 }
