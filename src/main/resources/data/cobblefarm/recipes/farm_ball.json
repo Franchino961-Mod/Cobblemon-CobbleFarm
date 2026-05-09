@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": ["LOL", "FTF", "LBL"],
+  "key": {
+    "L": { "item": "minecraft:oak_leaves" },
+    "O": { "item": "cobblemon:poke_ball" },
+    "F": { "item": "minecraft:string" },
+    "T": { "item": "minecraft:dirt" },
+    "B": { "item": "minecraft:stick" }
+  },
+  "result": { "item": "cobblefarm:farm_ball", "count": 4 }
+}
