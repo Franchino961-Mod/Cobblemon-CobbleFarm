@@ -1,0 +1,11 @@
+{
+  "required": true,
+  "package": "com.cobblefarm.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "PokeBallMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
