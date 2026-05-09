@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "cobblefarm",
+  "version": "${version}",
+  "name": "CobbleFarm",
+  "description": "A Cobblemon addon that lets you farm Pokémon drops passively using a Farm Ball and tiered farm blocks.",
+  "authors": ["YourName"],
+  "contact": {
+    "homepage": "",
+    "sources": ""
+  },
+  "license": "MIT",
+  "icon": "assets/cobblefarm/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": ["com.cobblefarm.CobbleFarm"],
+    "client": ["com.cobblefarm.CobbleFarmClient"]
+  },
+  "mixins": ["cobblefarm.mixins.json"],
+  "depends": {
+    "fabricloader": ">=0.15.0",
+    "fabric-api": "*",
+    "minecraft": "~1.21.1",
+    "cobblemon": "*",
+    "java": ">=21"
+  }
+}
