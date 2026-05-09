@@ -1,29 +1,17 @@
 package com.cobblefarm.item;
 
-import net.minecraft.client.item.TooltipContext;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.NbtComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-/**
- * An item representing a Pokémon captured with the Farm Ball.
- *
- * NBT structure stored under "cobblefarm:pokemon_data":
- * {
- *   "species":    "cobblemon:bulbasaur",
- *   "form":       "normal",
- *   "level":      12,
- *   "shiny":      false,
- *   "displayName": "Bulbasaur",
- *   "loot_table": "cobblemon:entities/bulbasaur"
- * }
- */
 public class CapturedPokemonItem extends Item {
 
     public static final String NBT_KEY = "cobblefarm:pokemon_data";
@@ -32,24 +20,9 @@ public class CapturedPokemonItem extends Item {
         super(new Item.Settings().maxCount(1));
     }
 
-    // -------------------------------------------------------------------------
-    // Static factory — call this from the event handler after a successful catch
-    // -------------------------------------------------------------------------
-
-    /**
-     * Creates an ItemStack containing the captured Pokémon's data.
-     *
-     * @param species     ResourceLocation string, e.g. "cobblemon:bulbasaur"
-     * @param form        Form name, e.g. "normal"
-     * @param level       Pokémon level at time of capture
-     * @param shiny       Whether the Pokémon is shiny
-     * @param displayName Localised display name of the Pokémon
-     * @param lootTable   ResourceLocation of the Cobblemon loot table
-     */
     public static ItemStack create(String species, String form, int level,
                                    boolean shiny, String displayName, String lootTable) {
         ItemStack stack = new ItemStack(CobbleFarmItems.CAPTURED_POKEMON_ITEM);
-        NbtCompound nbt = stack.getOrCreateNbt();
         NbtCompound data = new NbtCompound();
         data.putString("species", species);
         data.putString("form", form);
@@ -57,19 +30,17 @@ public class CapturedPokemonItem extends Item {
         data.putBoolean("shiny", shiny);
         data.putString("displayName", displayName);
         data.putString("loot_table", lootTable);
-        nbt.put(NBT_KEY, data);
+        
+        NbtComponent.set(DataComponentTypes.CUSTOM_DATA, stack, data);
         return stack;
     }
 
-    // -------------------------------------------------------------------------
-    // NBT helpers
-    // -------------------------------------------------------------------------
-
     @Nullable
     public static NbtCompound getPokemonData(ItemStack stack) {
-        NbtCompound nbt = stack.getNbt();
-        if (nbt == null || !nbt.contains(NBT_KEY)) return null;
-        return nbt.getCompound(NBT_KEY);
+        NbtComponent nbtComponent = stack.get(DataComponentTypes.CUSTOM_DATA);
+        if (nbtComponent == null) return null;
+        NbtCompound nbt = nbtComponent.copyNbt();
+        return nbt.contains(NBT_KEY) ? nbt.getCompound(NBT_KEY) : nbt;
     }
 
     public static String getSpecies(ItemStack stack) {
@@ -97,13 +68,8 @@ public class CapturedPokemonItem extends Item {
         return d != null ? d.getString("loot_table") : "";
     }
 
-    // -------------------------------------------------------------------------
-    // Tooltip
-    // -------------------------------------------------------------------------
-
     @Override
-    public void appendTooltip(ItemStack stack, @Nullable World world,
-                               List<Text> tooltip, TooltipContext context) {
+    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         NbtCompound data = getPokemonData(stack);
         if (data == null) {
             tooltip.add(Text.literal("No data").formatted(Formatting.RED));
