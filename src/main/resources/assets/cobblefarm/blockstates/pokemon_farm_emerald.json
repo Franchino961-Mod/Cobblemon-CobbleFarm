@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "cobblefarm:block/pokemon_farm_emerald" },
+    "facing=south": { "model": "cobblefarm:block/pokemon_farm_emerald", "y": 180 },
+    "facing=east":  { "model": "cobblefarm:block/pokemon_farm_emerald", "y": 90  },
+    "facing=west":  { "model": "cobblefarm:block/pokemon_farm_emerald", "y": 270 }
+  }
+}
