@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": ["III", "ICI", "III"],
+  "key": {
+    "I": { "item": "minecraft:iron_ingot" },
+    "C": { "item": "minecraft:chest" }
+  },
+  "result": { "item": "cobblefarm:pokemon_farm_iron", "count": 1 }
+}
