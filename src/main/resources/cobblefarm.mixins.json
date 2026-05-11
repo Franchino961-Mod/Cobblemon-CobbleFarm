@@ -1,9 +1,0 @@
-{
-  "required": true,
-  "package": "com.cobblefarm.mixin",
-  "compatibilityLevel": "JAVA_21",
-  "mixins": [],
-  "injectors": {
-    "defaultRequire": 1
-  }
-}
