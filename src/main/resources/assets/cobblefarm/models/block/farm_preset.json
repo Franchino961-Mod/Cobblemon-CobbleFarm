@@ -1,8 +1,10 @@
 {
+	"format_version": "1.21.11",
+	"credit": "Made with Blockbench",
 	"render_type": "minecraft:cutout",
 	"textures": {
-		"grass": "minecraft:block/grass_top",
-		"glass": "minecraft:block/glass"
+		"grass": "cobblefarm:block/mycelium",
+		"glass": "cobblefarm:block/glass"
 	},
 	"elements": [
 		{
@@ -136,7 +138,7 @@
 			}
 		},
 		{
-			"name": "#grass",
+			"name": "#mycelium",
 			"from": [3, 2, 3],
 			"to": [13, 2.01, 13],
 			"faces": {
@@ -214,17 +216,57 @@
 			}
 		}
 	],
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [75, 45, 0],
+			"translation": [0, 2.5, 0],
+			"scale": [0.375, 0.375, 0.375]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [75, 45, 0],
+			"translation": [0, 2.5, 0],
+			"scale": [0.375, 0.375, 0.375]
+		},
+		"firstperson_righthand": {
+			"rotation": [0, 45, 0],
+			"scale": [0.4, 0.4, 0.4]
+		},
+		"firstperson_lefthand": {
+			"rotation": [0, -135, 0],
+			"scale": [0.4, 0.4, 0.4]
+		},
+		"ground": {
+			"translation": [0, 3, 0],
+			"scale": [0.25, 0.25, 0.25]
+		},
+		"gui": {
+			"rotation": [30, -135, 0],
+			"scale": [0.625, 0.625, 0.625]
+		},
+		"fixed": {
+			"scale": [0.5, 0.5, 0.5]
+		}
+	},
 	"groups": [
 		{
 			"name": "edge",
+			"origin": [8, 8, 8],
+			"scope": 0,
+			"color": 0,
 			"children": [0, 1, 2, 3, 4, 5, 6, 7]
 		},
 		{
 			"name": "base",
+			"origin": [8, 8, 8],
+			"scope": 0,
+			"color": 0,
 			"children": [8, 9, 10]
 		},
 		{
-			"name": "cover",
+			"name": "glass",
+			"origin": [8, 8, 8],
+			"scope": 0,
+			"color": 0,
 			"children": [11, 12, 13, 14, 15]
 		}
 	]
