@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:crafting_shaped",
-  "pattern": ["EEE", "EFE", "EEE"],
-  "key": {
-    "E": { "item": "minecraft:emerald" },
-    "F": { "item": "cobblefarm:pokemon_farm_diamond" }
-  },
-  "result": { "item": "cobblefarm:pokemon_farm_emerald", "count": 1 }
-}
