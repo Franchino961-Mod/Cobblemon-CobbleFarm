@@ -3,7 +3,7 @@
   "pattern": ["NNN", "NFN", "NNN"],
   "key": {
     "N": { "item": "minecraft:netherite_ingot" },
-    "F": { "item": "cobblefarm:pokemon_farm_emerald" }
+    "F": { "item": "cobblefarm:cobblefarm_emerald" }
   },
-  "result": { "item": "cobblefarm:pokemon_farm_netherite", "count": 1 }
+  "result": { "item": "cobblefarm:cobblefarm_netherite", "count": 1 }
 }
