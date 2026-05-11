@@ -1,8 +1,0 @@
-{
-  "variants": {
-    "facing=north": { "model": "cobblefarm:block/pokemon_farm_gold" },
-    "facing=south": { "model": "cobblefarm:block/pokemon_farm_gold", "y": 180 },
-    "facing=east":  { "model": "cobblefarm:block/pokemon_farm_gold", "y": 90  },
-    "facing=west":  { "model": "cobblefarm:block/pokemon_farm_gold", "y": 270 }
-  }
-}
