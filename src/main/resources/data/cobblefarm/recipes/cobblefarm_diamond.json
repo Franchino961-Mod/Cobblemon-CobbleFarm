@@ -3,7 +3,7 @@
   "pattern": ["DDD", "DFD", "DDD"],
   "key": {
     "D": { "item": "minecraft:diamond" },
-    "F": { "item": "cobblefarm:pokemon_farm_gold" }
+    "F": { "item": "cobblefarm:cobblefarm_gold" }
   },
-  "result": { "item": "cobblefarm:pokemon_farm_diamond", "count": 1 }
+  "result": { "item": "cobblefarm:cobblefarm_diamond", "count": 1 }
 }
