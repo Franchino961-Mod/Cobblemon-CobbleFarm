@@ -8,13 +8,13 @@ import net.minecraft.screen.ScreenHandlerType;
 
 public class CobbleFarmScreenHandlers {
 
-    public static ScreenHandlerType<PokemonFarmScreenHandler> POKEMON_FARM_SCREEN_HANDLER;
+    public static ScreenHandlerType<CobbleFarmScreenHandler> COBBLEFARM_SCREEN_HANDLER;
 
     public static void register() {
-        POKEMON_FARM_SCREEN_HANDLER = Registry.register(
+        COBBLEFARM_SCREEN_HANDLER = Registry.register(
                 Registries.SCREEN_HANDLER,
-                CobbleFarm.id("pokemon_farm"),
-                new ScreenHandlerType<>(PokemonFarmScreenHandler::new, FeatureFlags.VANILLA_FEATURES)
+                CobbleFarm.id("cobblefarm"),
+                new ScreenHandlerType<>(CobbleFarmScreenHandler::new, FeatureFlags.VANILLA_FEATURES)
         );
         CobbleFarm.LOGGER.info("Registered CobbleFarm screen handlers.");
     }
