@@ -4,16 +4,16 @@
   "item.cobblefarm.farm_ball": "Farm Ball",
   "item.cobblefarm.captured_pokemon_item": "Captured Pokémon",
 
-  "block.cobblefarm.pokemon_farm_iron": "Iron Pokémon Farm",
-  "block.cobblefarm.pokemon_farm_gold": "Gold Pokémon Farm",
-  "block.cobblefarm.pokemon_farm_diamond": "Diamond Pokémon Farm",
-  "block.cobblefarm.pokemon_farm_emerald": "Emerald Pokémon Farm",
-  "block.cobblefarm.pokemon_farm_netherite": "Netherite Pokémon Farm",
+  "block.cobblefarm.cobblefarm_iron": "Iron CobbleFarm",
+  "block.cobblefarm.cobblefarm_gold": "Gold CobbleFarm",
+  "block.cobblefarm.cobblefarm_diamond": "Diamond CobbleFarm",
+  "block.cobblefarm.cobblefarm_emerald": "Emerald CobbleFarm",
+  "block.cobblefarm.cobblefarm_netherite": "Netherite CobbleFarm",
 
-  "gui.cobblefarm.farm.title": "Pokémon Farm",
+  "gui.cobblefarm.farm.title": "CobbleFarm",
   "gui.cobblefarm.farm.pause": "Pause",
   "gui.cobblefarm.farm.resume": "Resume",
   "gui.cobblefarm.farm.no_pokemon": "No Pokémon inserted",
 
-  "tooltip.cobblefarm.captured_pokemon": "Insert into a Pokémon Farm to generate drops."
+  "tooltip.cobblefarm.captured_pokemon": "Insert into a CobbleFarm to generate drops."
 }
