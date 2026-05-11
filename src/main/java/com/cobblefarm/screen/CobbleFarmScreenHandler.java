@@ -1,7 +1,7 @@
 package com.cobblefarm.screen;
 
-import com.cobblefarm.blockentity.PokemonFarmBlockEntity;
-import com.cobblefarm.item.CapturedPokemonItem;
+import com.cobblefarm.blockentity.CobbleFarmBlockEntity;
+import com.cobblefarm.item.FarmBallItem;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
@@ -12,16 +12,16 @@ import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 
-public class PokemonFarmScreenHandler extends ScreenHandler {
+public class CobbleFarmScreenHandler extends ScreenHandler {
 
     private final Inventory pokemonSlot;
     private final PropertyDelegate propertyDelegate;
-    private final PokemonFarmBlockEntity blockEntity;
+    private final CobbleFarmBlockEntity blockEntity;
 
-    public PokemonFarmScreenHandler(int syncId, PlayerInventory playerInventory,
-                                    PokemonFarmBlockEntity blockEntity,
-                                    PropertyDelegate propertyDelegate) {
-        super(CobbleFarmScreenHandlers.POKEMON_FARM_SCREEN_HANDLER, syncId);
+    public CobbleFarmScreenHandler(int syncId, PlayerInventory playerInventory,
+                                   CobbleFarmBlockEntity blockEntity,
+                                   PropertyDelegate propertyDelegate) {
+        super(CobbleFarmScreenHandlers.COBBLEFARM_SCREEN_HANDLER, syncId);
         this.blockEntity = blockEntity;
         if (blockEntity != null) {
             this.pokemonSlot = blockEntity.getPokemonSlot();
@@ -32,10 +32,10 @@ public class PokemonFarmScreenHandler extends ScreenHandler {
 
         addProperties(propertyDelegate);
 
-        this.addSlot(new Slot(pokemonSlot, 0, 80, 35) {
+        this.addSlot(new Slot(pokemonSlot, 0, 71, 33) {
             @Override
             public boolean canInsert(ItemStack stack) {
-                return stack.getItem() instanceof CapturedPokemonItem;
+                return FarmBallItem.hasPokemon(stack);
             }
         });
 
@@ -50,15 +50,13 @@ public class PokemonFarmScreenHandler extends ScreenHandler {
         }
     }
 
-    public PokemonFarmScreenHandler(int syncId, PlayerInventory playerInventory) {
-        this(syncId, playerInventory, null, new ArrayPropertyDelegate(5));
+    public CobbleFarmScreenHandler(int syncId, PlayerInventory playerInventory) {
+        this(syncId, playerInventory, null, new ArrayPropertyDelegate(3));
     }
 
     public int getCurrentTick() { return propertyDelegate.get(0); }
     public int getTicksPerCycle() { return propertyDelegate.get(1); }
     public boolean isPaused() { return propertyDelegate.get(2) == 1; }
-    public int getBufferCount() { return propertyDelegate.get(3); }
-    public int getBufferCapacity() { return propertyDelegate.get(4); }
 
     public float getProgress() {
         int cycle = getTicksPerCycle();
@@ -78,7 +76,7 @@ public class PokemonFarmScreenHandler extends ScreenHandler {
             if (index == 0) {
                 if (!this.insertItem(stack, 1, this.slots.size(), true)) return ItemStack.EMPTY;
             } else {
-                if (stack.getItem() instanceof CapturedPokemonItem) {
+                if (FarmBallItem.hasPokemon(stack)) {
                     if (!this.insertItem(stack, 0, 1, false)) return ItemStack.EMPTY;
                 } else {
                     return ItemStack.EMPTY;
@@ -97,5 +95,5 @@ public class PokemonFarmScreenHandler extends ScreenHandler {
         return true;
     }
 
-    public PokemonFarmBlockEntity getBlockEntity() { return blockEntity; }
+    public CobbleFarmBlockEntity getBlockEntity() { return blockEntity; }
 }
