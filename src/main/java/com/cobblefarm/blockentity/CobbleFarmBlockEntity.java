@@ -4,18 +4,20 @@ import com.cobblefarm.block.FarmTier;
 import com.cobblefarm.item.FarmBallItem;
 import com.cobblefarm.loot.PokemonLootHelper;
 import com.cobblefarm.screen.CobbleFarmScreenHandler;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.PropertyDelegate;
@@ -43,8 +45,15 @@ public class CobbleFarmBlockEntity extends BlockEntity implements NamedScreenHan
         }
     };
 
+    // -------------------------------------------------------------------------
+    // Client-only rendering cache — annotated @Environment so it is never
+    // touched during server-side ticking.
+    // -------------------------------------------------------------------------
+    @Environment(EnvType.CLIENT)
     private LivingEntity cachedEntity;
-    private ItemStack lastStack = ItemStack.EMPTY;
+
+    @Environment(EnvType.CLIENT)
+    private ItemStack lastStack;
 
     private boolean isPaused = false;
     private int currentTick = 0;
@@ -73,6 +82,10 @@ public class CobbleFarmBlockEntity extends BlockEntity implements NamedScreenHan
         };
     }
 
+    // -------------------------------------------------------------------------
+    // Server tick
+    // -------------------------------------------------------------------------
+
     public void tick(World world, BlockPos pos, BlockState state) {
         if (world.isClient) return;
         if (isPaused) return;
@@ -80,10 +93,13 @@ public class CobbleFarmBlockEntity extends BlockEntity implements NamedScreenHan
         ItemStack pokemon = pokemonSlot.getStack(0);
         if (pokemon.isEmpty() || !FarmBallItem.hasPokemon(pokemon)) return;
 
-        // Check if container below exists — if not, do not tick
+        // Require a container below — stop ticking if absent
         BlockPos below = pos.down();
         var belowBe = world.getBlockEntity(below);
-        if (!(belowBe instanceof Inventory)) return;
+        if (!(belowBe instanceof Inventory targetInv)) return;
+
+        // Stop ticking if the container below is completely full
+        if (isInventoryFull(targetInv)) return;
 
         currentTick++;
 
@@ -95,11 +111,20 @@ public class CobbleFarmBlockEntity extends BlockEntity implements NamedScreenHan
         markDirty();
     }
 
-    private void produceDrop(ServerWorld world, BlockPos pos, ItemStack pokemon) {
-        String lootTableId = FarmBallItem.getLootTable(pokemon);
-        if (lootTableId.isEmpty()) return;
+    private boolean isInventoryFull(Inventory inv) {
+        for (int slot = 0; slot < inv.size(); slot++) {
+            ItemStack s = inv.getStack(slot);
+            if (s.isEmpty()) return false;
+            if (s.getCount() < s.getMaxCount()) return false;
+        }
+        return true;
+    }
 
-        List<ItemStack> drops = PokemonLootHelper.generateDrops(world, lootTableId, tier.speedMultiplier);
+    private void produceDrop(ServerWorld world, BlockPos pos, ItemStack pokemon) {
+        String speciesId = FarmBallItem.getLootTable(pokemon);
+        if (speciesId.isEmpty()) return;
+
+        List<ItemStack> drops = PokemonLootHelper.generateDrops(world, speciesId, tier.speedMultiplier);
 
         BlockPos below = pos.down();
         var belowBe = world.getBlockEntity(below);
@@ -138,7 +163,13 @@ public class CobbleFarmBlockEntity extends BlockEntity implements NamedScreenHan
                 remaining -= copy.getCount();
             }
         }
+        // Any remaining items beyond the container's capacity are silently dropped.
+        // The isInventoryFull() check in tick() prevents this in normal operation.
     }
+
+    // -------------------------------------------------------------------------
+    // Drop on block break
+    // -------------------------------------------------------------------------
 
     public void dropContents(World world, BlockPos pos) {
         ItemStack pokemon = pokemonSlot.getStack(0);
@@ -147,6 +178,10 @@ public class CobbleFarmBlockEntity extends BlockEntity implements NamedScreenHan
         }
     }
 
+    // -------------------------------------------------------------------------
+    // Pause toggle
+    // -------------------------------------------------------------------------
+
     public void togglePause() {
         isPaused = !isPaused;
         markDirty();
@@ -154,11 +189,72 @@ public class CobbleFarmBlockEntity extends BlockEntity implements NamedScreenHan
 
     public boolean isPaused() { return isPaused; }
 
+    // -------------------------------------------------------------------------
+    // Accessors
+    // -------------------------------------------------------------------------
+
     public SimpleInventory getPokemonSlot() { return pokemonSlot; }
 
     public FarmTier getTier() { return tier; }
 
     public PropertyDelegate getPropertyDelegate() { return propertyDelegate; }
+
+    // -------------------------------------------------------------------------
+    // Client-only: build / return cached PokemonEntity for rendering.
+    // MUST be called only from client-side code (Renderer, Screen).
+    // -------------------------------------------------------------------------
+
+    @Environment(EnvType.CLIENT)
+    @Nullable
+    public LivingEntity getLivingEntity(World renderWorld) {
+        // Lazy-init lastStack on first client call
+        if (lastStack == null) lastStack = ItemStack.EMPTY;
+
+        ItemStack currentStack = pokemonSlot.getStack(0);
+        if (ItemStack.areEqual(currentStack, lastStack)) {
+            return cachedEntity;
+        }
+        lastStack = currentStack.copy();
+
+        if (currentStack.isEmpty() || !FarmBallItem.hasPokemon(currentStack)) {
+            cachedEntity = null;
+            return null;
+        }
+
+        try {
+            String species = FarmBallItem.getSpecies(currentStack);
+            boolean shiny  = FarmBallItem.isShiny(currentStack);
+            int level      = FarmBallItem.getLevel(currentStack);
+            String form    = FarmBallItem.getForm(currentStack);
+
+            StringBuilder props = new StringBuilder(species);
+            props.append(" level=").append(level);
+            if (shiny) props.append(" shiny=yes");
+            if (form != null && !form.isEmpty() && !form.equals("normal")) {
+                props.append(" form=").append(form);
+            }
+
+            com.cobblemon.mod.common.pokemon.Pokemon pokemon =
+                    com.cobblemon.mod.common.api.pokemon.PokemonProperties.Companion
+                            .parse(props.toString()).create();
+
+            com.cobblemon.mod.common.entity.pokemon.PokemonEntity entity =
+                    com.cobblemon.mod.common.CobblemonEntities.POKEMON.create(renderWorld);
+
+            if (entity != null) {
+                entity.setPokemon(pokemon);
+            }
+            cachedEntity = entity;
+        } catch (Exception e) {
+            com.cobblefarm.CobbleFarm.LOGGER.error("Failed to create PokemonEntity for rendering", e);
+            cachedEntity = null;
+        }
+        return cachedEntity;
+    }
+
+    // -------------------------------------------------------------------------
+    // NBT
+    // -------------------------------------------------------------------------
 
     @Override
     protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
@@ -174,15 +270,20 @@ public class CobbleFarmBlockEntity extends BlockEntity implements NamedScreenHan
     @Override
     protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
         super.readNbt(nbt, registryLookup);
-
         if (nbt.contains("pokemon_slot")) {
-            pokemonSlot.setStack(0, ItemStack.fromNbt(registryLookup, nbt.get("pokemon_slot")).orElse(ItemStack.EMPTY));
+            pokemonSlot.setStack(0,
+                    ItemStack.fromNbt(registryLookup, nbt.get("pokemon_slot"))
+                             .orElse(ItemStack.EMPTY));
         } else {
             pokemonSlot.setStack(0, ItemStack.EMPTY);
         }
-        isPaused = nbt.getBoolean("is_paused");
+        isPaused   = nbt.getBoolean("is_paused");
         currentTick = nbt.getInt("current_tick");
     }
+
+    // -------------------------------------------------------------------------
+    // Sync packets
+    // -------------------------------------------------------------------------
 
     @Nullable
     @Override
@@ -195,43 +296,9 @@ public class CobbleFarmBlockEntity extends BlockEntity implements NamedScreenHan
         return createNbt(registryLookup);
     }
 
-    public LivingEntity getLivingEntity(World renderWorld) {
-        ItemStack currentStack = pokemonSlot.getStack(0);
-        if (ItemStack.areEqual(currentStack, lastStack)) {
-            return cachedEntity;
-        }
-        lastStack = currentStack.copy();
-
-        if (currentStack.isEmpty() || !FarmBallItem.hasPokemon(currentStack)) {
-            cachedEntity = null;
-            return null;
-        }
-
-        try {
-            String species = FarmBallItem.getSpecies(currentStack);
-            boolean shiny = FarmBallItem.isShiny(currentStack);
-            int level = FarmBallItem.getLevel(currentStack);
-            String form = FarmBallItem.getForm(currentStack);
-            
-            StringBuilder props = new StringBuilder(species);
-            props.append(" level=").append(level);
-            if (shiny) props.append(" shiny=yes");
-            if (form != null && !form.isEmpty() && !form.equals("normal")) {
-                props.append(" form=").append(form);
-            }
-
-            com.cobblemon.mod.common.pokemon.Pokemon pokemon = com.cobblemon.mod.common.api.pokemon.PokemonProperties.Companion.parse(props.toString()).create();
-            com.cobblemon.mod.common.entity.pokemon.PokemonEntity entity = com.cobblemon.mod.common.CobblemonEntities.POKEMON.create(renderWorld);
-            if (entity != null) {
-                entity.setPokemon(pokemon);
-            }
-            cachedEntity = entity;
-        } catch (Exception e) {
-            com.cobblefarm.CobbleFarm.LOGGER.error("Failed to parse Pokemon for block rendering", e);
-            cachedEntity = null;
-        }
-        return cachedEntity;
-    }
+    // -------------------------------------------------------------------------
+    // Screen factory
+    // -------------------------------------------------------------------------
 
     @Override
     public Text getDisplayName() {
