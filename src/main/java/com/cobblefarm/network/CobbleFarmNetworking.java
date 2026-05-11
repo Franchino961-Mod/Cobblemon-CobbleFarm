@@ -1,7 +1,7 @@
 package com.cobblefarm.network;
 
 import com.cobblefarm.CobbleFarm;
-import com.cobblefarm.blockentity.PokemonFarmBlockEntity;
+import com.cobblefarm.blockentity.CobbleFarmBlockEntity;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.RegistryByteBuf;
@@ -32,7 +32,7 @@ public class CobbleFarmNetworking {
         ServerPlayNetworking.registerGlobalReceiver(PauseTogglePayload.ID, (payload, context) -> {
             BlockPos pos = payload.pos();
             context.server().execute(() -> {
-                if (context.player().getWorld().getBlockEntity(pos) instanceof PokemonFarmBlockEntity farm) {
+                if (context.player().getWorld().getBlockEntity(pos) instanceof CobbleFarmBlockEntity farm) {
                     if (context.player().squaredDistanceTo(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5) < 64) {
                         farm.togglePause();
                     }
