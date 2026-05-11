@@ -1,8 +1,0 @@
-{
-  "variants": {
-    "facing=north": { "model": "cobblefarm:block/pokemon_farm_netherite" },
-    "facing=south": { "model": "cobblefarm:block/pokemon_farm_netherite", "y": 180 },
-    "facing=east":  { "model": "cobblefarm:block/pokemon_farm_netherite", "y": 90  },
-    "facing=west":  { "model": "cobblefarm:block/pokemon_farm_netherite", "y": 270 }
-  }
-}
