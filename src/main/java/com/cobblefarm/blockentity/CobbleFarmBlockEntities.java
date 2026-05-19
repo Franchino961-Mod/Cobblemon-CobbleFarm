@@ -3,7 +3,6 @@ package com.cobblefarm.blockentity;
 import com.cobblefarm.CobbleFarm;
 import com.cobblefarm.block.CobbleFarmBlocks;
 import com.cobblefarm.block.FarmTier;
-import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -16,7 +15,7 @@ public class CobbleFarmBlockEntities {
         COBBLEFARM = Registry.register(
                 Registries.BLOCK_ENTITY_TYPE,
                 CobbleFarm.id("cobblefarm"),
-                FabricBlockEntityTypeBuilder.create(
+                BlockEntityType.Builder.create(
                         (pos, state) -> {
                             FarmTier tier = FarmTier.IRON;
                             if (state.isOf(CobbleFarmBlocks.COBBLEFARM_GOLD)) tier = FarmTier.GOLD;
