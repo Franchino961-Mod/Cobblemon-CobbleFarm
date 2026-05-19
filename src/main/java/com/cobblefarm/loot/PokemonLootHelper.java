@@ -13,11 +13,8 @@ import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-
 public class PokemonLootHelper {
 
-    private static final Random RANDOM = new Random();
 
     /**
      * Generates drops for the given Cobblemon species, applying the farm tier's speed multiplier.
@@ -48,7 +45,7 @@ public class PokemonLootHelper {
                 if (!(entry instanceof ItemDropEntry itemEntry)) continue;
 
                 // Roll drop chance (percentage is 0–100)
-                if (RANDOM.nextFloat() * 100 > itemEntry.getPercentage()) continue;
+                if (world.getRandom().nextFloat() * 100 > itemEntry.getPercentage()) continue;
 
                 // Resolve item
                 Identifier itemIdent = Identifier.of(
@@ -66,7 +63,7 @@ public class PokemonLootHelper {
                 if (itemEntry.getQuantityRange() != null) {
                     int min = itemEntry.getQuantityRange().getStart();
                     int max = itemEntry.getQuantityRange().getEndInclusive();
-                    count = (min == max) ? min : min + RANDOM.nextInt(max - min + 1);
+                    count = (min == max) ? min : min + world.getRandom().nextInt(max - min + 1);
                 } else {
                     count = itemEntry.getQuantity();
                 }
@@ -78,7 +75,7 @@ public class PokemonLootHelper {
                 //   a 50% chance of 1 instead of always 0.
                 int newCount = (int) Math.floor(count * speedMultiplier);
                 float remainder = (count * speedMultiplier) - newCount;
-                if (remainder > 0 && RANDOM.nextFloat() < remainder) {
+                if (remainder > 0 && world.getRandom().nextFloat() < remainder) {
                     newCount++;
                 }
                 if (newCount <= 0) continue;
