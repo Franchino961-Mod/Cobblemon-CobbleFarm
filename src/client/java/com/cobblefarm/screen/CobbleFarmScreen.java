@@ -44,8 +44,8 @@ public class CobbleFarmScreen extends HandledScreen<CobbleFarmScreenHandler> {
     protected void init() {
         super.init();
 
-        int btnX = x + 105;
-        int btnY = y + 74;
+        int btnX = x + 110;
+        int btnY = y + 4;
         pauseButton = ButtonWidget.builder(getPauseText(), btn -> sendPauseToggle())
                 .dimensions(btnX, btnY, 60, 20)
                 .build();
@@ -54,7 +54,7 @@ public class CobbleFarmScreen extends HandledScreen<CobbleFarmScreenHandler> {
 
     private void updateCachedEntity() {
         ItemStack currentStack = handler.getSlot(0).getStack();
-        if (ItemStack.areEqual(currentStack, lastStack)) {
+        if (ItemStack.areItemsAndComponentsEqual(currentStack, lastStack)) {
             return;
         }
         lastStack = currentStack.copy();
@@ -112,7 +112,7 @@ public class CobbleFarmScreen extends HandledScreen<CobbleFarmScreenHandler> {
 
         String status = handler.isPaused() ? "§cPaused" : "§aActive";
         context.drawText(this.textRenderer, "Status: " + status,
-                x + 105, y + 20, 0x555555, false);
+                x + 110, y + 26, 0x555555, false);
 
         updateCachedEntity();
         if (cachedEntity != null) {
@@ -120,10 +120,13 @@ public class CobbleFarmScreen extends HandledScreen<CobbleFarmScreenHandler> {
             cachedEntity.age = (int) (MinecraftClient.getInstance().world.getTime());
             
             // Render entity at X=8, Y=15, W=52, H=63. Center X = 34, Bottom Y = 78
-            int renderX = x + 34;
-            int renderY = y + 70; // Adjusted for proper fitting
-            int size = 25;
-            InventoryScreen.drawEntity(context, renderX - 25, renderY - 50, renderX + 25, renderY, size, 0.0625F, (float)renderX - mouseX, (float)renderY - 30 - mouseY, cachedEntity);
+            // Match Tiny MobFarm Remastered logic: X=8, Y=15, Width=52, Height=63
+            int x1 = x + 8;
+            int y1 = y + 15;
+            int x2 = x1 + 52;
+            int y2 = y1 + 63;
+            int size = 28; 
+            InventoryScreen.drawEntity(context, x1, y1, x2, y2, size, 0.0625F, (float)mouseX, (float)mouseY, cachedEntity);
         }
     }
 
