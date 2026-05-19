@@ -38,6 +38,11 @@ public class FarmBallItem extends Item {
                 data.putString("loot_table", pokemon.getSpecies().getResourceIdentifier().toString());
 
                 NbtComponent.set(DataComponentTypes.CUSTOM_DATA, capturedBall, data);
+                
+                // Imposta la durabilità e forza lo stack size a 1
+                capturedBall.set(DataComponentTypes.MAX_DAMAGE, 256);
+                capturedBall.set(DataComponentTypes.DAMAGE, 0);
+                capturedBall.set(DataComponentTypes.MAX_STACK_SIZE, 1);
 
                 if (!user.getInventory().insertStack(capturedBall)) {
                     user.dropItem(capturedBall, false);
