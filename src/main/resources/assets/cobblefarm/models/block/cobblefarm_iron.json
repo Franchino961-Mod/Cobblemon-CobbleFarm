@@ -1,5 +1,5 @@
 {
-	"parent": "cobblefarm:block/farm_preset",
+	"parent": "cobblefarm:block/cobblefarm_preset",
 	"textures": {
 		"particle": "minecraft:block/iron_block",
 		"material": "minecraft:block/iron_block"
