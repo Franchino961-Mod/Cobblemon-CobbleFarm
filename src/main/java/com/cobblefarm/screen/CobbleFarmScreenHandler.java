@@ -35,7 +35,7 @@ public class CobbleFarmScreenHandler extends ScreenHandler {
         this.addSlot(new Slot(pokemonSlot, 0, 71, 33) {
             @Override
             public boolean canInsert(ItemStack stack) {
-                return FarmBallItem.hasPokemon(stack);
+                return FarmBallItem.hasPokemon(stack) && !this.hasStack();
             }
         });
 
