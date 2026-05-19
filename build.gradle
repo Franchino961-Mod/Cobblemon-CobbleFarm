@@ -4,11 +4,8 @@ plugins {
 }
 
 version = project.mod_version
+archivesBaseName = "${project.archives_base_name}-fabric-mc${project.minecraft_version}"
 group = project.maven_group
-
-base {
-    archivesName = project.archives_base_name
-}
 
 repositories {
     maven { url = "https://maven.fabricmc.net/" }
