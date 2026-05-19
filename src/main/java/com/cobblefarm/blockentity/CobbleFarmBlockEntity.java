@@ -106,6 +106,20 @@ public class CobbleFarmBlockEntity extends BlockEntity implements NamedScreenHan
         if (currentTick >= tier.ticksPerCycle) {
             currentTick = 0;
             produceDrop((ServerWorld) world, pos, pokemon);
+            
+            // Applica il danno al Farm Ball
+            int damage = tier.getRandomDamage(world.random);
+            if (damage > 0) {
+                pokemon.damage(damage, (ServerWorld) world, null, item -> {
+                    // Questa callback viene invocata quando l'oggetto si rompe
+                    pokemonSlot.setStack(0, ItemStack.EMPTY);
+                });
+                
+                // Se l'oggetto è stato distrutto da damage() ma la callback non ha pulito lo slot (fallback)
+                if (pokemon.isEmpty()) {
+                    pokemonSlot.setStack(0, ItemStack.EMPTY);
+                }
+            }
         }
 
         markDirty();
