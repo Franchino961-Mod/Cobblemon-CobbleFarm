@@ -26,20 +26,21 @@ import org.jetbrains.annotations.Nullable;
 public class CobbleFarmBlock extends BlockWithEntity {
 
     public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
-    public static final MapCodec<CobbleFarmBlock> CODEC = createCodec(settings -> new CobbleFarmBlock(FarmTier.IRON, settings));
     private static final VoxelShape SHAPE = Block.createCuboidShape(1.0, 0.0, 1.0, 15.0, 14.0, 15.0);
+    private final MapCodec<CobbleFarmBlock> codec;
 
     private final FarmTier tier;
 
     public CobbleFarmBlock(FarmTier tier, AbstractBlock.Settings settings) {
         super(settings);
         this.tier = tier;
+        this.codec = createCodec(s -> new CobbleFarmBlock(tier, s));
         this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH));
     }
 
     @Override
     protected MapCodec<? extends BlockWithEntity> getCodec() {
-        return CODEC;
+        return codec;
     }
 
     public FarmTier getTier() {
