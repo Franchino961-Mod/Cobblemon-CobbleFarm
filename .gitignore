@@ -35,8 +35,6 @@ Desktop.ini
 *.rej
 *.diff
 *.patch
-draft/
-WIP/
 backup/
 
 # Logs / diagnostics
@@ -46,55 +44,18 @@ logs/
 log/
 crash-reports/
 debug.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
+*.zip
 
 # Caches / tool state
 .cache/
-.eslintcache
-.parcel-cache/
-.turbo/
-.vite/
-.stylelintcache
-.sass-cache/
-.nyc_output/
-coverage/
-
-# Environment / secrets
-.env
-.env.*
-*.env
-*.env.*
-*.local
-*.secret
-*.secrets
-*.key
-*.pem
-*.p12
-*.pfx
-
-# Archives / packaged artifacts
-*.7z
-*.gz
-*.rar
-*.tar
-*.tar.gz
-*.tgz
-*.zip
-*.xz
-*.bz2
 
 # ==================================
-# Java / Gradle / Maven / Minecraft
+# Java / Gradle / Fabric Mod
 # ==================================
 
 .gradle/
 build/
-dist/
 out/
-target/
 bin/
 classes/
 generated/
@@ -102,13 +63,9 @@ generated-sources/
 generated-resources/
 *.class
 *.jar
-*.war
-*.ear
-*.nar
 *.lck
-dependency-reduced-pom.xml
 
-# Minecraft / datapack / plugin / mod dev environments
+# Mod dev environments
 run/
 runs/
 run-*/
@@ -117,6 +74,7 @@ run-*/
 server/
 client/
 !src/client/
+!src/client/**
 world/
 saves/
 testworld/
@@ -125,7 +83,7 @@ screenshots/
 hs_err_pid*
 replay_pid*
 
-# Common mod-loader specific folders
+# Mod-loader specific folders
 .fabric/
 .forge/
 .neoforge/
@@ -133,39 +91,12 @@ replay_pid*
 .mcp/
 .architectury/
 
-# Common packaged outputs from mod/plugin tooling
+# Packaged outputs from mod tooling
 remappedSrc/
 remappedClasses/
 fabric-out/
 forge-out/
 neoforge-out/
-
-# ==================================
-# Python / Node / other tooling
-# ==================================
-
-__pycache__/
-*.py[cod]
-*$py.class
-.Python
-.venv/
-venv/
-env/
-ENV/
-node_modules/
-
-# ==================================
-# Optional local-only project files
-# ==================================
-
-*.pid
-*.seed
-*.sqlite
-*.sqlite3
-*.db
-*.mdb
-*.sublime-workspace
-*.sublime-project
 
 # =========================
 # Documentation / media / assets
@@ -174,7 +105,3 @@ node_modules/
 Docs/*
 !README.*.md
 !CHANGELOG.*.md
-
-# Backups
-src/main/resources/assets/mega_compass/backup/
-*_backup/
