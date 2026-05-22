@@ -8,5 +8,5 @@
     "T": { "item": "minecraft:dirt" },
     "B": { "item": "minecraft:stick" }
   },
-  "result": { "item": "cobblefarm:farm_ball", "count": 4 }
+  "result": { "id": "cobblefarm:farm_ball", "count": 4 }
 }
