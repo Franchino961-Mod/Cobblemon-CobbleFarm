@@ -25,7 +25,7 @@ public class CobbleFarmRenderer implements BlockEntityRenderer<CobbleFarmBlockEn
 
         // Drive animations by updating age and time based on world time
         livingEntity.age = (int) (entity.getWorld().getTime());
-        if (livingEntity instanceof com.cobblemon.mod.common.entity.pokemon.PokemonEntity pokemonEntity) {
+        if (livingEntity instanceof com.cobblemon.mod.common.entity.pokemon.PokemonEntity) {
             // Update the pokemon's internal animation state if needed
             // (Setting age is usually enough for GeckoLib-based entities in this context)
         }
