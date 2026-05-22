@@ -29,7 +29,7 @@ public class PokemonLootHelper {
 
         try {
             Identifier id = Identifier.of(speciesId);
-            Species species = PokemonSpecies.INSTANCE.getByIdentifier(id);
+            Species species = PokemonSpecies.getByIdentifier(id);
 
             if (species == null) {
                 CobbleFarm.LOGGER.warn("CobbleFarm: Species not found for drops: {}", speciesId);
