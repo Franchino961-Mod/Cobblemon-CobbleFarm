@@ -5,5 +5,5 @@
     "G": { "item": "minecraft:gold_ingot" },
     "F": { "item": "cobblefarm:cobblefarm_iron" }
   },
-  "result": { "item": "cobblefarm:cobblefarm_gold", "count": 1 }
+  "result": { "id": "cobblefarm:cobblefarm_gold", "count": 1 }
 }
