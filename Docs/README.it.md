@@ -3,7 +3,7 @@
 Automatizza la raccolta degli oggetti dei Pokémon! Un addon per Cobblemon che ti permette di farmare i drop dei Pokémon automaticamente utilizzando blocchi di produzione divisi per tier (livelli).
 
 [![Minecraft](https://img.shields.io/badge/Minecraft-1.21.1-green.svg)](https://www.minecraft.net/)
-[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)]()
+[![Version](https://img.shields.io/badge/version-0.5.0-blue.svg)]()
 [![Fabric](https://img.shields.io/badge/Fabric-0.16.9-blue.svg)](https://fabricmc.net/)
 [![Cobblemon](https://img.shields.io/badge/Cobblemon-1.6.0+-red.svg)](https://cobblemon.com)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](../LICENSE)
