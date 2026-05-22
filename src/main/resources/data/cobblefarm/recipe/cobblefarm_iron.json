@@ -5,5 +5,5 @@
     "I": { "item": "minecraft:iron_ingot" },
     "C": { "item": "minecraft:chest" }
   },
-  "result": { "item": "cobblefarm:cobblefarm_iron", "count": 1 }
+  "result": { "id": "cobblefarm:cobblefarm_iron", "count": 1 }
 }
