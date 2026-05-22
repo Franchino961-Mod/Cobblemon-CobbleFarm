@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "cobblefarm:cobblefarm_iron",
+    "cobblefarm:cobblefarm_gold",
+    "cobblefarm:cobblefarm_diamond",
+    "cobblefarm:cobblefarm_emerald",
+    "cobblefarm:cobblefarm_netherite"
+  ]
+}
