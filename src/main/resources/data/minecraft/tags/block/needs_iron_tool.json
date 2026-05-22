@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "cobblefarm:cobblefarm_gold",
+    "cobblefarm:cobblefarm_diamond",
+    "cobblefarm:cobblefarm_emerald"
+  ]
+}
