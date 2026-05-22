@@ -92,9 +92,11 @@ public class FarmBallItem extends Item {
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         NbtComponent nbtComponent = stack.get(DataComponentTypes.CUSTOM_DATA);
+        boolean hasPoke = false;
         if (nbtComponent != null) {
             NbtCompound data = nbtComponent.copyNbt();
             if (data.contains("species")) {
+                hasPoke = true;
                 String name = data.getString("displayName");
                 boolean shiny = data.getBoolean("shiny");
 
@@ -102,7 +104,11 @@ public class FarmBallItem extends Item {
                 if (shiny) {
                     tooltip.add(Text.literal("✦ Shiny").formatted(Formatting.YELLOW));
                 }
+                tooltip.add(Text.translatable("tooltip.cobblefarm.captured_pokemon").formatted(Formatting.GOLD));
             }
+        }
+        if (!hasPoke) {
+            tooltip.add(Text.translatable("tooltip.cobblefarm.farm_ball_empty").formatted(Formatting.GRAY));
         }
     }
 
