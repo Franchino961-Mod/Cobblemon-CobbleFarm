@@ -5,5 +5,5 @@
     "N": { "item": "minecraft:netherite_ingot" },
     "F": { "item": "cobblefarm:cobblefarm_emerald" }
   },
-  "result": { "item": "cobblefarm:cobblefarm_netherite", "count": 1 }
+  "result": { "id": "cobblefarm:cobblefarm_netherite", "count": 1 }
 }
