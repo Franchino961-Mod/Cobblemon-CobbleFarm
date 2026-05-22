@@ -15,5 +15,6 @@
   "gui.cobblefarm.farm.resume": "Resume",
   "gui.cobblefarm.farm.no_pokemon": "No Pokémon inserted",
 
-  "tooltip.cobblefarm.captured_pokemon": "Insert into a CobbleFarm to generate drops."
+  "tooltip.cobblefarm.captured_pokemon": "Insert into a CobbleFarm to generate drops.",
+  "tooltip.cobblefarm.farm_ball_empty": "Right-click a wild Pokémon to capture it."
 }
