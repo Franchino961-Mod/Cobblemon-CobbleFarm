@@ -7,7 +7,6 @@ import com.cobblefarm.network.CobbleFarmNetworking;
 import com.cobblefarm.screen.CobbleFarmScreenHandlers;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
