@@ -1,0 +1,20 @@
+{
+  "itemgroup.cobblefarm": "CobbleFarm",
+
+  "item.cobblefarm.farm_ball": "牧场球",
+  "item.cobblefarm.captured_pokemon_item": "已捕获的神奇宝贝",
+
+  "block.cobblefarm.cobblefarm_iron": "铁质牧场",
+  "block.cobblefarm.cobblefarm_gold": "金质牧场",
+  "block.cobblefarm.cobblefarm_diamond": "钻石牧场",
+  "block.cobblefarm.cobblefarm_emerald": "绿宝石牧场",
+  "block.cobblefarm.cobblefarm_netherite": "下界合金牧场",
+
+  "gui.cobblefarm.farm.title": "CobbleFarm",
+  "gui.cobblefarm.farm.pause": "暂停",
+  "gui.cobblefarm.farm.resume": "继续",
+  "gui.cobblefarm.farm.no_pokemon": "未放入神奇宝贝",
+
+  "tooltip.cobblefarm.captured_pokemon": "放入牧场以生成掉落物。",
+  "tooltip.cobblefarm.farm_ball_empty": "右键野生神奇宝贝以捕获它。"
+}
