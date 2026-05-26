@@ -1,0 +1,20 @@
+{
+  "itemgroup.cobblefarm": "CobbleFarm",
+
+  "item.cobblefarm.farm_ball": "Farm-Ball",
+  "item.cobblefarm.captured_pokemon_item": "Gefangenes Pokémon",
+
+  "block.cobblefarm.cobblefarm_iron": "Eiserne CobbleFarm",
+  "block.cobblefarm.cobblefarm_gold": "Goldene CobbleFarm",
+  "block.cobblefarm.cobblefarm_diamond": "Diamant-CobbleFarm",
+  "block.cobblefarm.cobblefarm_emerald": "Smaragd-CobbleFarm",
+  "block.cobblefarm.cobblefarm_netherite": "Netherit-CobbleFarm",
+
+  "gui.cobblefarm.farm.title": "CobbleFarm",
+  "gui.cobblefarm.farm.pause": "Pause",
+  "gui.cobblefarm.farm.resume": "Fortsetzen",
+  "gui.cobblefarm.farm.no_pokemon": "Kein Pokémon eingesetzt",
+
+  "tooltip.cobblefarm.captured_pokemon": "In eine CobbleFarm einsetzen, um Beute zu generieren.",
+  "tooltip.cobblefarm.farm_ball_empty": "Rechtsklicke auf ein wildes Pokémon, um es zu fangen."
+}
