@@ -1,0 +1,20 @@
+{
+  "itemgroup.cobblefarm": "CobbleFarm",
+
+  "item.cobblefarm.farm_ball": "Farm Ball",
+  "item.cobblefarm.captured_pokemon_item": "Pokémon Capturado",
+
+  "block.cobblefarm.cobblefarm_iron": "CobbleFarm de Ferro",
+  "block.cobblefarm.cobblefarm_gold": "CobbleFarm de Ouro",
+  "block.cobblefarm.cobblefarm_diamond": "CobbleFarm de Diamante",
+  "block.cobblefarm.cobblefarm_emerald": "CobbleFarm de Esmeralda",
+  "block.cobblefarm.cobblefarm_netherite": "CobbleFarm de Netherita",
+
+  "gui.cobblefarm.farm.title": "CobbleFarm",
+  "gui.cobblefarm.farm.pause": "Pausar",
+  "gui.cobblefarm.farm.resume": "Retomar",
+  "gui.cobblefarm.farm.no_pokemon": "Nenhum Pokémon inserido",
+
+  "tooltip.cobblefarm.captured_pokemon": "Insira em uma CobbleFarm para gerar drops.",
+  "tooltip.cobblefarm.farm_ball_empty": "Clique com o botão direito em um Pokémon selvagem para capturá-lo."
+}
