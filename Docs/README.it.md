@@ -1,6 +1,10 @@
 # 🏭 Cobblemon CobbleFarm
 
+## 📖 Panoramica
+
 Automatizza la raccolta degli oggetti dei Pokémon! Un addon per Cobblemon che ti permette di farmare i drop dei Pokémon automaticamente utilizzando blocchi di produzione divisi per tier (livelli).
+
+[![Scarica su CurseForge](https://img.shields.io/badge/Scarica_su-CurseForge-orange?style=for-the-badge&logo=curseforge)](https://www.curseforge.com/minecraft/mc-mods/cobblemon-cobblefarm)
 
 [![Minecraft](https://img.shields.io/badge/Minecraft-1.21.1-green.svg)](https://www.minecraft.net/)
 [![Version](https://img.shields.io/badge/version-0.5.0-blue.svg)]()
@@ -73,6 +77,13 @@ Il tier della farm determina sia la velocità con cui vengono generati i drop, s
 ## 🖥️ Comportamento Client/Server
 - **Server**: Richiesto. La mod gestisce i blocchi entità e la generazione del loot lato server.
 - **Client**: Richiesto. Include modelli 3D personalizzati e il rendering dinamico per la Farm Ball.
+
+---
+
+## 🤝 Compatibilità
+- **Cobblemon**: Progettato come addon per Cobblemon, pienamente compatibile con le tabelle di spawn loot dei Pokémon di Cobblemon.
+- **Fabric API**: Richiesto.
+- **Modpack**: Sei libero di includere e distribuire questa mod in qualsiasi modpack.
 
 ---
 
