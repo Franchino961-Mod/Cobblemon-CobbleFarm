@@ -1,6 +1,10 @@
 # 🏭 Cobblemon CobbleFarm
 
+## 📖 Overview
+
 Automate your Pokémon item gathering! A Cobblemon addon that lets you farm Pokémon drops automatically using tier-based production blocks.
+
+[![Download on CurseForge](https://img.shields.io/badge/Download_on-CurseForge-orange?style=for-the-badge&logo=curseforge)](https://www.curseforge.com/minecraft/mc-mods/cobblemon-cobblefarm)
 
 [![Minecraft](https://img.shields.io/badge/Minecraft-1.21.1-green.svg)](https://www.minecraft.net/)
 [![Version](https://img.shields.io/badge/version-0.5.0-blue.svg)]()
@@ -73,6 +77,13 @@ The tier of the farm determines both how fast drops are generated and how much d
 ## 🖥️ Client/Server Behavior
 - **Server**: Required. The mod handles block entities and loot generation on the server.
 - **Client**: Required. Includes custom 3D models and dynamic rendering for the Farm Ball.
+
+---
+
+## 🤝 Compatibility & Modpack Notes
+- **Cobblemon**: Designed as an addon for Cobblemon, fully compatible with standard Cobblemon spawn loot tables.
+- **Fabric API**: Required.
+- **Modpacks**: You are free to distribute and include this mod in any modpack.
 
 ---
 
