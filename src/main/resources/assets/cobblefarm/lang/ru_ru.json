@@ -1,0 +1,20 @@
+{
+  "itemgroup.cobblefarm": "CobbleFarm",
+
+  "item.cobblefarm.farm_ball": "Фарм-бол",
+  "item.cobblefarm.captured_pokemon_item": "Пойманный покемон",
+
+  "block.cobblefarm.cobblefarm_iron": "Железная коббл-ферма",
+  "block.cobblefarm.cobblefarm_gold": "Золотая коббл-ферма",
+  "block.cobblefarm.cobblefarm_diamond": "Алмазная коббл-ферма",
+  "block.cobblefarm.cobblefarm_emerald": "Изумрудная коббл-ферма",
+  "block.cobblefarm.cobblefarm_netherite": "Нетеритовая коббл-ферма",
+
+  "gui.cobblefarm.farm.title": "CobbleFarm",
+  "gui.cobblefarm.farm.pause": "Пауза",
+  "gui.cobblefarm.farm.resume": "Продолжить",
+  "gui.cobblefarm.farm.no_pokemon": "Покемон не вставлен",
+
+  "tooltip.cobblefarm.captured_pokemon": "Поместите в коббл-ферму для генерации дропа.",
+  "tooltip.cobblefarm.farm_ball_empty": "Нажмите правой кнопкой мыши по дикому покемону, чтобы поймать его."
+}
