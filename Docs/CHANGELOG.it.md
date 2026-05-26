@@ -5,6 +5,16 @@ Tutte le modifiche rilevanti alla mod **CobbleFarm** verranno documentate in que
 Il formato si basa su [Keep a Changelog](https://keepachangelog.com/it/1.0.0/),
 e questo progetto aderisce al [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.1] - 26-05-2026
+### Aggiunto
+- **Localizzazione**: Aggiunti i file di traduzione per le lingue Tedesco, Spagnolo, Francese, Portoghese, Russo e Cinese.
+- **Badge di CurseForge**: Aggiunto il badge per il download su CurseForge nel README del progetto.
+- **Compatibilità**: Aggiunta la sezione sulla compatibilità e sul supporto per i modpack nel README.
+
+### Modificato
+- **Texture GUI**: Aggiornata la texture dello sfondo della schermata GUI di CobbleFarm.
+- **Struttura del Progetto**: Aggiornate le regole di gitignore e configurato gitattributes per la normalizzazione dei fine riga (line endings).
+
 ## [0.5.0] - 22-05-2026
 ### Aggiunto
 - **Tooltip Dinamici**: Aggiunti tooltip per la Farm Ball sia quando è vuota che quando contiene un Pokémon.
