@@ -5,6 +5,16 @@ All notable changes to the **CobbleFarm** mod will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.1] - 2026-05-26
+### Added
+- **Localization**: Added translation files for German, Spanish, French, Portuguese, Russian, and Chinese languages.
+- **CurseForge Badge**: Added a CurseForge download badge to the project README.
+- **Compatibility**: Added a compatibility & modpack support section to the README.
+
+### Changed
+- **GUI Texture**: Updated the background texture for the CobbleFarm GUI screen.
+- **Project Structure**: Updated gitignore patterns and configured gitattributes for line ending normalization.
+
 ## [0.5.0] - 2026-05-22
 ### Added
 - **Dynamic Tooltips**: Added empty and captured state tooltips for the Farm Ball item.
