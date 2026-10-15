@@ -16,5 +16,11 @@
   "gui.cobblefarm.farm.no_pokemon": "Kein Pokémon eingesetzt",
 
   "tooltip.cobblefarm.captured_pokemon": "In eine CobbleFarm einsetzen, um Beute zu generieren.",
-  "tooltip.cobblefarm.farm_ball_empty": "Rechtsklicke auf ein wildes Pokémon, um es zu fangen."
+  "tooltip.cobblefarm.farm_ball_empty": "Rechtsklicke auf ein wildes Pokémon, um es zu fangen.",
+  "tooltip.cobblefarm.uses_left": "%s / %s Nutzungen verbleibend",
+
+  "message.cobblefarm.cannot_steal_pokemon": "Du kannst das Pokémon eines anderen Spielers nicht fangen!",
+  "message.cobblefarm.pokemon_in_battle": "Dieses Pokémon ist derzeit beschäftigt oder im Kampf!",
+  "message.cobblefarm.cannot_capture_npc": "Du kannst keine NPC-Pokémon fangen!"
 }
+
