@@ -5,6 +5,26 @@ All notable changes to the **CobbleFarm** mod will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.0] - 2026-10-15
+
+### Fixed
+- **Storage Mod Compatibility (Sophisticated Storage, Drawers, etc.)**: Upgraded container output handling to use Fabric Transfer API (`ItemStorage.SIDED`) with seamless fallback to vanilla inventories. CobbleFarm blocks now directly recognize and output drops into Sophisticated Storage barrels/chests, Storage Drawers, and modded inventories.
+- **GUI Synchronization & Pause Toggle**: Migrated the screen handler to Fabric's `ExtendedScreenHandlerType` synchronizing the `BlockPos` packet codec to client screens. Fixed the Pause toggle button and resolved GUI desync/crash issues.
+- **Entity Rendering Optimization in GUI**: Optimized Pokémon rendering in the CobbleFarm screen using a specialized state key (`cachedPokemonKey`) to avoid redundant entity re-instantiation and freezing when item durability updates.
+- **Loot Generation NPE Guard**: Provided a valid Pokémon context in `PokemonLootHelper` to prevent NullPointerExceptions during Cobblemon conditional drop calculations.
+
+### Added
+- **Internal Output Buffer**: Added an internal output buffer in `CobbleFarmBlockEntity` to safely store drops when the attached container below is full or temporarily unavailable, preventing item loss.
+- **Farm Ball Safety & Protections**: Prevented capturing other players' Pokémon, NPC Pokémon, or Pokémon engaged in battle with localized feedback messages.
+- **Held Item Protection**: Captured Pokémon now safely eject any held items (such as Leftovers, Master Balls, etc.) into the player's inventory or ground instead of destroying them.
+- **Full NBT Preservation**: Pokémon data inside Farm Balls is now saved using Cobblemon's `saveToNBT` with `RegistryManager` for complete IV, EV, and component preservation.
+- **Smithing Table Netherite Recipe**: Upgraded the Netherite Farm recipe to standard Minecraft 1.21 Smithing Template transform (`minecraft:smithing_transform`).
+- **Smooth World 3D Animation**: Added smooth continuous 360° rotation for the Pokémon rendered inside the CobbleFarm block.
+- **Remaining Uses Tooltip**: Added a uses remaining counter to Farm Ball tooltips.
+- **Automated Publishing Workflow**: Added `mod-publish-plugin` and GitHub Actions CI workflow for automated releases to CurseForge and GitHub.
+
+---
+
 ## [0.5.1] - 2026-05-26
 ### Added
 - **Localization**: Added translation files for German, Spanish, French, Portuguese, Russian, and Chinese languages.
