@@ -5,6 +5,26 @@ Tutte le modifiche rilevanti alla mod **CobbleFarm** verranno documentate in que
 Il formato si basa su [Keep a Changelog](https://keepachangelog.com/it/1.0.0/),
 e questo progetto aderisce al [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.0] - 2026-10-15
+
+### Risolto
+- **Compatibilità con Mod di Storage (Sophisticated Storage, Drawers, ecc.)**: Aggiornato il sistema di output nei contenitori per utilizzare la Fabric Transfer API (`ItemStorage.SIDED`) con fallback automatico agli inventari vanilla. I blocchi CobbleFarm ora riconoscono ed estraggono correttamente i drop nei barili/casse di Sophisticated Storage, Storage Drawers e altri contenitori moddati.
+- **Sincronizzazione GUI & Tasto Pausa**: Migrato lo screen handler all'`ExtendedScreenHandlerType` di Fabric sincronizzando il codec del `BlockPos` allo schermo del client. Risolto il funzionamento del pulsante di Pausa ed eliminati i problemi di desync e crash della GUI.
+- **Ottimizzazione Rendering Entità nella Schermata**: Ottimizzato il rendering del Pokémon all'interno della GUI di CobbleFarm tramite chiave cache dedicata (`cachedPokemonKey`), evitando la continua re-istanziazione dell'entità e i blocchi del client quando cambia la durabilità della sfera.
+- **Protezione NullPointerException nella Generazione Drop**: Fornito un contesto Pokémon valido in `PokemonLootHelper` per prevenire errori NPE durante il calcolo dei drop condizionali di Cobblemon.
+
+### Aggiunto
+- **Buffer di Output Interno**: Aggiunto un buffer di memoria interna in `CobbleFarmBlockEntity` per trattenere temporaneamente i drop nel caso in cui il contenitore sottostante sia pieno o momentaneamente inaccessibile, prevenendo la perdita di oggetti.
+- **Sicurezza e Protezioni della Farm Ball**: Bloccata la cattura di Pokémon appartenenti ad altri giocatori, Pokémon NPC o Pokémon attualmente impegnati in una lotta, con appositi messaggi di avviso localizzati.
+- **Salvataggio Held Item**: I Pokémon catturati espellono automaticamente nell'inventario del giocatore o a terra gli strumenti che tenevano assegnati (come Avanzi, Master Ball, ecc.) senza distruggerli.
+- **Preservazione NBT Completa**: I dati del Pokémon nella Farm Ball vengono ora salvati tramite `saveToNBT` con il `RegistryManager` per garantire la conservazione totale di IV, EV, mosse e componenti.
+- **Ricetta Forgiatura Netherite**: Aggiornata la ricetta per la Farm di Netherite utilizzando il template per forgiatura di Minecraft 1.21 (`minecraft:smithing_transform`).
+- **Animazione 3D Continua nel Mondo**: Aggiunta una rotazione fluida a 360° per il modello del Pokémon mostrato all'interno del blocco CobbleFarm.
+- **Tooltip Usi Rimanenti**: Visualizzazione del conteggio degli usi rimanenti nei tooltip della Farm Ball.
+- **Workflow di Pubblicazione Automatizzata**: Configurato `mod-publish-plugin` e il workflow di GitHub Actions per automatizzare i rilasci su CurseForge e GitHub.
+
+---
+
 ## [0.5.1] - 26-05-2026
 ### Aggiunto
 - **Localizzazione**: Aggiunti i file di traduzione per le lingue Tedesco, Spagnolo, Francese, Portoghese, Russo e Cinese.
