@@ -23,15 +23,12 @@ public class CobbleFarmRenderer implements BlockEntityRenderer<CobbleFarmBlockEn
         LivingEntity livingEntity = entity.getLivingEntity(entity.getWorld());
         if (livingEntity == null) return;
 
-        // Drive animations by updating age and time based on world time
+        // Drive animations by updating age based on world time
         livingEntity.age = (int) (entity.getWorld().getTime());
-        if (livingEntity instanceof com.cobblemon.mod.common.entity.pokemon.PokemonEntity) {
-            // Update the pokemon's internal animation state if needed
-            // (Setting age is usually enough for GeckoLib-based entities in this context)
-        }
 
         Direction facing = entity.getCachedState().get(CobbleFarmBlock.FACING);
-        float angle = facing.asRotation();
+        float baseAngle = facing.asRotation();
+        float spin = (entity.getWorld().getTime() + tickDelta) * 1.5f;
 
         matrices.push();
         
@@ -46,8 +43,8 @@ public class CobbleFarmRenderer implements BlockEntityRenderer<CobbleFarmBlockEn
         }
         matrices.scale(scale, scale, scale);
 
-        // Rotate based on facing direction
-        matrices.multiply(RotationAxis.NEGATIVE_Y.rotationDegrees(angle));
+        // Continuous smooth rotation
+        matrices.multiply(RotationAxis.NEGATIVE_Y.rotationDegrees(baseAngle + spin));
 
         // Render the entity
         MinecraftClient.getInstance().getEntityRenderDispatcher().render(
@@ -60,3 +57,4 @@ public class CobbleFarmRenderer implements BlockEntityRenderer<CobbleFarmBlockEn
         matrices.pop();
     }
 }
+
