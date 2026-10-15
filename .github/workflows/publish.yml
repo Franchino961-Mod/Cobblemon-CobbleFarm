@@ -1,0 +1,43 @@
+name: Publish to CurseForge & GitHub
+
+on:
+  push:
+    tags:
+      - 'v*' # Triggers the workflow only when you push a tag like v0.6.0
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+
+      # Grant execute permission for the gradlew script on Unix runners
+      - name: Make Gradlew Executable
+        run: chmod +x gradlew
+
+      - name: Build and Publish Mod
+        run: ./gradlew publishMods
+        env:
+          CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_TOKEN }}
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: build/libs/*-fabric-*.jar
+          name: Release ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
