@@ -9,10 +9,10 @@ import net.minecraft.util.math.random.Random;
 public enum FarmTier {
 
     IRON(1, "iron", 200, 1.0f, new int[]{2, 3}),
-    GOLD(2, "gold", 140, 1.5f, new int[]{1, 2}),
-    DIAMOND(3, "diamond", 100, 2.0f, new int[]{1}),
-    EMERALD(4, "emerald", 60, 3.0f, new int[]{0, 1}),
-    NETHERITE(5, "netherite", 30, 5.0f, new int[]{0});
+    GOLD(2, "gold", 140, 1.0f, new int[]{1, 2}),
+    DIAMOND(3, "diamond", 100, 1.0f, new int[]{1}),
+    EMERALD(4, "emerald", 60, 1.25f, new int[]{0, 1}),
+    NETHERITE(5, "netherite", 40, 1.5f, new int[]{0});
 
     /** Display tier number (1–5). */
     public final int tier;
@@ -40,3 +40,4 @@ public enum FarmTier {
         return this.damageChance[random.nextInt(this.damageChance.length)];
     }
 }
+
