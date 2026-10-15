@@ -11,17 +11,20 @@ import net.minecraft.screen.ArrayPropertyDelegate;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
+import net.minecraft.util.math.BlockPos;
 
 public class CobbleFarmScreenHandler extends ScreenHandler {
 
     private final Inventory pokemonSlot;
     private final PropertyDelegate propertyDelegate;
     private final CobbleFarmBlockEntity blockEntity;
+    private final BlockPos pos;
 
-    public CobbleFarmScreenHandler(int syncId, PlayerInventory playerInventory,
+    public CobbleFarmScreenHandler(int syncId, PlayerInventory playerInventory, BlockPos pos,
                                    CobbleFarmBlockEntity blockEntity,
                                    PropertyDelegate propertyDelegate) {
         super(CobbleFarmScreenHandlers.COBBLEFARM_SCREEN_HANDLER, syncId);
+        this.pos = pos;
         this.blockEntity = blockEntity;
         if (blockEntity != null) {
             this.pokemonSlot = blockEntity.getPokemonSlot();
@@ -50,9 +53,11 @@ public class CobbleFarmScreenHandler extends ScreenHandler {
         }
     }
 
-    public CobbleFarmScreenHandler(int syncId, PlayerInventory playerInventory) {
-        this(syncId, playerInventory, null, new ArrayPropertyDelegate(3));
+    public CobbleFarmScreenHandler(int syncId, PlayerInventory playerInventory, BlockPos pos) {
+        this(syncId, playerInventory, pos, null, new ArrayPropertyDelegate(3));
     }
+
+    public BlockPos getPos() { return pos; }
 
     public int getCurrentTick() { return propertyDelegate.get(0); }
     public int getTicksPerCycle() { return propertyDelegate.get(1); }
@@ -92,8 +97,10 @@ public class CobbleFarmScreenHandler extends ScreenHandler {
 
     @Override
     public boolean canUse(PlayerEntity player) {
-        return true;
+        if (pos == null) return true;
+        return player.squaredDistanceTo(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5) <= 64.0;
     }
 
     public CobbleFarmBlockEntity getBlockEntity() { return blockEntity; }
 }
+
