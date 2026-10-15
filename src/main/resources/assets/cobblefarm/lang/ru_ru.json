@@ -16,5 +16,11 @@
   "gui.cobblefarm.farm.no_pokemon": "Покемон не вставлен",
 
   "tooltip.cobblefarm.captured_pokemon": "Поместите в коббл-ферму для генерации дропа.",
-  "tooltip.cobblefarm.farm_ball_empty": "Нажмите правой кнопкой мыши по дикому покемону, чтобы поймать его."
+  "tooltip.cobblefarm.farm_ball_empty": "Нажмите правой кнопкой мыши по дикому покемону, чтобы поймать его.",
+  "tooltip.cobblefarm.uses_left": "%s / %s использований осталось",
+
+  "message.cobblefarm.cannot_steal_pokemon": "Вы не можете поймать покемона другого игрока!",
+  "message.cobblefarm.pokemon_in_battle": "Этот покемон сейчас занят или находится в бою!",
+  "message.cobblefarm.cannot_capture_npc": "Вы не можете ловить покемонов NPC!"
 }
+
