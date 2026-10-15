@@ -16,5 +16,11 @@
   "gui.cobblefarm.farm.no_pokemon": "未放入神奇宝贝",
 
   "tooltip.cobblefarm.captured_pokemon": "放入牧场以生成掉落物。",
-  "tooltip.cobblefarm.farm_ball_empty": "右键野生神奇宝贝以捕获它。"
+  "tooltip.cobblefarm.farm_ball_empty": "右键野生神奇宝贝以捕获它。",
+  "tooltip.cobblefarm.uses_left": "剩余使用次数：%s / %s",
+
+  "message.cobblefarm.cannot_steal_pokemon": "你不能捕捉其他玩家的宝可梦！",
+  "message.cobblefarm.pokemon_in_battle": "该宝可梦当前正忙或处于对战中！",
+  "message.cobblefarm.cannot_capture_npc": "你不能捕捉NPC的宝可梦！"
 }
+
