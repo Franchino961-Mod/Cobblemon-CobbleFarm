@@ -16,5 +16,11 @@
   "gui.cobblefarm.farm.no_pokemon": "Ningún Pokémon insertado",
 
   "tooltip.cobblefarm.captured_pokemon": "Insértalo en una CobbleFarm para generar drops.",
-  "tooltip.cobblefarm.farm_ball_empty": "Haz clic derecho en un Pokémon salvaje para capturarlo."
+  "tooltip.cobblefarm.farm_ball_empty": "Haz clic derecho en un Pokémon salvaje para capturarlo.",
+  "tooltip.cobblefarm.uses_left": "%s / %s usos restantes",
+
+  "message.cobblefarm.cannot_steal_pokemon": "¡No puedes capturar el Pokémon de otro jugador!",
+  "message.cobblefarm.pokemon_in_battle": "¡Este Pokémon está ocupado o en batalla!",
+  "message.cobblefarm.cannot_capture_npc": "¡No puedes capturar Pokémon de NPC!"
 }
+
