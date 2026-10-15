@@ -16,6 +16,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
 
 public class CobbleFarmScreen extends HandledScreen<CobbleFarmScreenHandler> {
 
@@ -31,7 +32,7 @@ public class CobbleFarmScreen extends HandledScreen<CobbleFarmScreenHandler> {
 
     private ButtonWidget pauseButton;
     private LivingEntity cachedEntity;
-    private ItemStack lastStack = ItemStack.EMPTY;
+    private String cachedPokemonKey = "";
 
     public CobbleFarmScreen(CobbleFarmScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
@@ -53,22 +54,25 @@ public class CobbleFarmScreen extends HandledScreen<CobbleFarmScreenHandler> {
 
     private void updateCachedEntity() {
         ItemStack currentStack = handler.getSlot(0).getStack();
-        if (ItemStack.areItemsAndComponentsEqual(currentStack, lastStack)) {
-            return;
-        }
-        lastStack = currentStack.copy();
 
         if (currentStack.isEmpty() || !FarmBallItem.hasPokemon(currentStack)) {
             cachedEntity = null;
+            cachedPokemonKey = "";
             return;
         }
 
+        String species = FarmBallItem.getSpecies(currentStack);
+        boolean shiny = FarmBallItem.isShiny(currentStack);
+        int level = FarmBallItem.getLevel(currentStack);
+        String form = FarmBallItem.getForm(currentStack);
+        String key = species + ":" + form + ":" + shiny + ":" + level;
+
+        if (key.equals(cachedPokemonKey) && cachedEntity != null) {
+            return;
+        }
+        cachedPokemonKey = key;
+
         try {
-            String species = FarmBallItem.getSpecies(currentStack);
-            boolean shiny = FarmBallItem.isShiny(currentStack);
-            int level = FarmBallItem.getLevel(currentStack);
-            String form = FarmBallItem.getForm(currentStack);
-            
             StringBuilder props = new StringBuilder(species);
             props.append(" level=").append(level);
             if (shiny) props.append(" shiny=yes");
@@ -77,7 +81,8 @@ public class CobbleFarmScreen extends HandledScreen<CobbleFarmScreenHandler> {
             }
 
             Pokemon pokemon = PokemonProperties.Companion.parse(props.toString()).create();
-            com.cobblemon.mod.common.entity.pokemon.PokemonEntity entity = com.cobblemon.mod.common.CobblemonEntities.POKEMON.create(MinecraftClient.getInstance().world);
+            com.cobblemon.mod.common.entity.pokemon.PokemonEntity entity =
+                    com.cobblemon.mod.common.CobblemonEntities.POKEMON.create(MinecraftClient.getInstance().world);
             if (entity != null) {
                 entity.setPokemon(pokemon);
             }
@@ -114,12 +119,9 @@ public class CobbleFarmScreen extends HandledScreen<CobbleFarmScreenHandler> {
                 x + 110, y + 26, 0x555555, false);
 
         updateCachedEntity();
-        if (cachedEntity != null) {
-            // Drive animations in GUI
+        if (cachedEntity != null && MinecraftClient.getInstance().world != null) {
             cachedEntity.age = (int) (MinecraftClient.getInstance().world.getTime());
             
-            // Render entity at X=8, Y=15, W=52, H=63. Center X = 34, Bottom Y = 78
-            // Match Tiny MobFarm Remastered logic: X=8, Y=15, Width=52, Height=63
             int x1 = x + 8;
             int y1 = y + 15;
             int x2 = x1 + 52;
@@ -131,17 +133,16 @@ public class CobbleFarmScreen extends HandledScreen<CobbleFarmScreenHandler> {
 
     @Override
     protected void drawForeground(DrawContext context, int mouseX, int mouseY) {
-        // We only render text here. Let's position it accurately.
         context.drawText(this.textRenderer, this.title, this.titleX, this.titleY, 0x404040, false);
         context.drawText(this.textRenderer, Text.translatable("container.inventory"),
                 this.playerInventoryTitleX, this.playerInventoryTitleY, 0x404040, false);
     }
 
     private void sendPauseToggle() {
-        var be = handler.getBlockEntity();
-        if (be != null) {
+        BlockPos pos = handler.getPos();
+        if (pos != null) {
             ClientPlayNetworking.send(
-                new CobbleFarmNetworking.PauseTogglePayload(be.getPos())
+                new CobbleFarmNetworking.PauseTogglePayload(pos)
             );
         }
     }
@@ -152,3 +153,4 @@ public class CobbleFarmScreen extends HandledScreen<CobbleFarmScreenHandler> {
                 : Text.translatable("gui.cobblefarm.farm.pause");
     }
 }
+
