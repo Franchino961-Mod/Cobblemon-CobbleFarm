@@ -5,6 +5,19 @@ Tutte le modifiche rilevanti alla mod **CobbleFarm** verranno documentate in que
 Il formato si basa su [Keep a Changelog](https://keepachangelog.com/it/1.0.0/),
 e questo progetto aderisce al [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.1] - 2026-10-20
+
+### Risolto
+- **Cattura Pokémon con Proprietario & Duplicazione Infinita**: Vietata la cattura di Pokémon appartenenti a giocatori (sia propri sia di altri giocatori), a NPC allenatori o legati a blocchi pascolo (pasture). Eliminato alla radice l'exploit che consentiva di evocare ripetutamente i Pokémon della propria squadra per generare Farm Ball infinite senza mai consumare il Pokémon originale.
+- **Protezione da Race Condition & Cattura Multipla**: Introdotti controlli server-side rigorosi sullo stato dell'entità (`isRemoved`, `isAlive`, `queuedToDespawn`, `isBusy`, `isBattling`) e rimozione atomica immediata per prevenire duplicazioni tramite click simultanei nello stesso tick o interazioni a due mani.
+- **Inserimento GUI e Controllo Blocchi CobbleFarm**: Bloccato l'inserimento manuale e tramite shift-click delle Farm Ball contenenti specie non consentite in `CobbleFarmScreenHandler`, con messa in pausa automatica dell'operatività del blocco qualora contenga un Pokémon disabilitato dalla configurazione.
+
+### Aggiunto
+- **Restrizioni Configurabili per Cattura e Farm**: Introdotto il file di configurazione `config/cobblefarm.json` con opzioni per abilitare/disabilitare Pokémon Leggendari (`allowLegendaryCapture`, default `false`), Mitici (`allowMythicalCapture`, default `false`) e Ultra Creature (`allowUltraBeastCapture`, default `false`), lista di etichette/label vietate (`disallowedLabels`) e blacklist/whitelist personalizzate per specie.
+- **Messaggi di Feedback Localizzati**: Aggiunti messaggi di avviso tradotti in tutte le lingue supportate quando si tenta di catturare Pokémon propri, di altri giocatori, al pascolo, Leggendari/Mitici o disabilitati dalla configurazione.
+
+---
+
 ## [0.6.0] - 2026-10-15
 
 ### Risolto
