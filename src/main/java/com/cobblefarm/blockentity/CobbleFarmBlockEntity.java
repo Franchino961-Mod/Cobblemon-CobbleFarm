@@ -1,6 +1,7 @@
 package com.cobblefarm.blockentity;
 
 import com.cobblefarm.block.FarmTier;
+import com.cobblefarm.config.CobbleFarmConfig;
 import com.cobblefarm.item.FarmBallItem;
 import com.cobblefarm.loot.PokemonLootHelper;
 import com.cobblefarm.screen.CobbleFarmScreenHandler;
@@ -102,6 +103,11 @@ public class CobbleFarmBlockEntity extends BlockEntity implements ExtendedScreen
 
         ItemStack pokemon = pokemonSlot.getStack(0);
         if (pokemon.isEmpty() || !FarmBallItem.hasPokemon(pokemon)) return;
+
+        // Check if the Pokemon species is allowed in configuration
+        if (!CobbleFarmConfig.isPokemonAllowed(pokemon)) {
+            return; // Pause without taking durability if disallowed by config
+        }
 
         String speciesId = FarmBallItem.getLootTable(pokemon);
         if (speciesId.isEmpty()) return;
