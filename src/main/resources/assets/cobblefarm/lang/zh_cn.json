@@ -19,8 +19,13 @@
   "tooltip.cobblefarm.farm_ball_empty": "右键野生神奇宝贝以捕获它。",
   "tooltip.cobblefarm.uses_left": "剩余使用次数：%s / %s",
 
+  "message.cobblefarm.cannot_capture_own": "你不能捕捉自己的宝可梦！牧场球只能用于野生宝可梦。",
   "message.cobblefarm.cannot_steal_pokemon": "你不能捕捉其他玩家的宝可梦！",
-  "message.cobblefarm.pokemon_in_battle": "该宝可梦当前正忙或处于对战中！",
-  "message.cobblefarm.cannot_capture_npc": "你不能捕捉NPC的宝可梦！"
+  "message.cobblefarm.cannot_capture_npc": "你不能捕捉NPC的宝可梦！",
+  "message.cobblefarm.cannot_capture_owned": "你不能捕捉有主人的宝可梦！牧场球只能用于野生宝可梦。",
+  "message.cobblefarm.cannot_capture_pasture": "你不能捕捉放牧中的宝可梦！",
+  "message.cobblefarm.cannot_capture_legendary": "你不能使用牧场球捕捉传说或幻之宝可梦！",
+  "message.cobblefarm.cannot_capture_blacklisted": "该宝可梦种类在CobbleFarm配置中已被禁用！",
+  "message.cobblefarm.cannot_capture_disallowed": "该宝可梦在CobbleFarm配置中未被允许！",
+  "message.cobblefarm.pokemon_in_battle": "该宝可梦当前正忙或处于对战中！"
 }
-
