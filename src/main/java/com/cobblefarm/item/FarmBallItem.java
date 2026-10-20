@@ -1,5 +1,6 @@
 package com.cobblefarm.item;
 
+import com.cobblefarm.config.CobbleFarmConfig;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import net.minecraft.component.DataComponentTypes;
@@ -25,24 +26,71 @@ public class FarmBallItem extends Item {
     @Override
     public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
         if (entity instanceof PokemonEntity pokemonEntity && !hasPokemon(stack)) {
-            if (pokemonEntity.isRemoved() || !pokemonEntity.isAlive()) {
-                return ActionResult.PASS;
-            }
-
-            Pokemon pokemon = pokemonEntity.getPokemon();
-
-            // Check: Cannot capture other players' Pokemon
-            if (pokemon.isPlayerOwned() && (pokemon.getOwnerUUID() == null || !user.getUuid().equals(pokemon.getOwnerUUID()))) {
-                if (!user.getWorld().isClient) {
-                    user.sendMessage(Text.translatable("message.cobblefarm.cannot_steal_pokemon").formatted(Formatting.RED), true);
-                }
+            if (pokemonEntity.isRemoved() || !pokemonEntity.isAlive() || pokemonEntity.getQueuedToDespawn()) {
                 return ActionResult.FAIL;
             }
 
             // Check: Cannot capture Pokemon currently in battle or busy
-            if (pokemonEntity.isBusy()) {
+            if (pokemonEntity.isBusy() || pokemonEntity.isBattling()) {
                 if (!user.getWorld().isClient) {
                     user.sendMessage(Text.translatable("message.cobblefarm.pokemon_in_battle").formatted(Formatting.RED), true);
+                }
+                return ActionResult.FAIL;
+            }
+
+            // Check: Cannot capture pasture-tethered Pokemon
+            if (pokemonEntity.getTethering() != null) {
+                if (!user.getWorld().isClient) {
+                    user.sendMessage(Text.translatable("message.cobblefarm.cannot_capture_pasture").formatted(Formatting.RED), true);
+                }
+                return ActionResult.FAIL;
+            }
+
+            Pokemon pokemon = pokemonEntity.getPokemon();
+            if (pokemon == null) {
+                return ActionResult.FAIL;
+            }
+
+            // Check: Cannot capture player-owned Pokemon (must be wild)
+            if (pokemon.isPlayerOwned() || pokemon.getOwnerUUID() != null || pokemonEntity.getOwnerUuid() != null) {
+                if (!user.getWorld().isClient) {
+                    if (user.getUuid().equals(pokemon.getOwnerUUID()) || user.getUuid().equals(pokemonEntity.getOwnerUuid())) {
+                        user.sendMessage(Text.translatable("message.cobblefarm.cannot_capture_own").formatted(Formatting.RED), true);
+                    } else {
+                        user.sendMessage(Text.translatable("message.cobblefarm.cannot_steal_pokemon").formatted(Formatting.RED), true);
+                    }
+                }
+                return ActionResult.FAIL;
+            }
+
+            // Check: Cannot capture NPC-owned Pokemon
+            if (pokemon.isNPCOwned() || pokemon.getOwnerNPC() != null) {
+                if (!user.getWorld().isClient) {
+                    user.sendMessage(Text.translatable("message.cobblefarm.cannot_capture_npc").formatted(Formatting.RED), true);
+                }
+                return ActionResult.FAIL;
+            }
+
+            // Check: Must be strictly wild
+            if (!pokemon.isWild()) {
+                if (!user.getWorld().isClient) {
+                    user.sendMessage(Text.translatable("message.cobblefarm.cannot_capture_owned").formatted(Formatting.RED), true);
+                }
+                return ActionResult.FAIL;
+            }
+
+            // Check: Config-based restrictions (Legendary, Mythical, Ultra Beast, Blacklist, Labels)
+            CobbleFarmConfig.DisallowReason reason = CobbleFarmConfig.getDisallowReason(pokemon);
+            if (reason != CobbleFarmConfig.DisallowReason.ALLOWED) {
+                if (!user.getWorld().isClient) {
+                    switch (reason) {
+                        case LEGENDARY_OR_MYTHICAL ->
+                                user.sendMessage(Text.translatable("message.cobblefarm.cannot_capture_legendary").formatted(Formatting.RED), true);
+                        case BLACKLISTED, NOT_WHITELISTED ->
+                                user.sendMessage(Text.translatable("message.cobblefarm.cannot_capture_blacklisted").formatted(Formatting.RED), true);
+                        default ->
+                                user.sendMessage(Text.translatable("message.cobblefarm.cannot_capture_disallowed").formatted(Formatting.RED), true);
+                    }
                 }
                 return ActionResult.FAIL;
             }
