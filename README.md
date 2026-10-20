@@ -7,7 +7,7 @@ Automate your Pokémon item gathering! A Cobblemon addon that lets you farm Pok�
 [![Download on CurseForge](https://img.shields.io/badge/Download_on-CurseForge-orange?style=for-the-badge&logo=curseforge)](https://www.curseforge.com/minecraft/mc-mods/cobblemon-cobblefarm)
 
 [![Minecraft](https://img.shields.io/badge/Minecraft-1.21.1-green.svg)](https://www.minecraft.net/)
-[![Version](https://img.shields.io/badge/version-0.5.0-blue.svg)]()
+[![Version](https://img.shields.io/badge/version-0.6.1-blue.svg)]()
 [![Fabric](https://img.shields.io/badge/Fabric-0.16.9-blue.svg)](https://fabricmc.net/)
 [![Cobblemon](https://img.shields.io/badge/Cobblemon-1.6.0+-red.svg)](https://cobblemon.com)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -87,9 +87,38 @@ The tier of the farm determines both how fast drops are generated and how much d
 
 ---
 
+## ⚙️ Configuration
+CobbleFarm automatically generates a configuration file at `config/cobblefarm.json`:
+
+```json
+{
+  "allowLegendaryCapture": false,
+  "allowMythicalCapture": false,
+  "allowUltraBeastCapture": false,
+  "disallowedLabels": [
+    "legendary",
+    "mythical",
+    "ultra_beast"
+  ],
+  "speciesBlacklist": [],
+  "speciesWhitelist": []
+}
+```
+
+- **`allowLegendaryCapture`** *(default: `false`)*: Enables or disables capturing Legendary Pokémon with Farm Balls and using them inside CobbleFarms.
+- **`allowMythicalCapture`** *(default: `false`)*: Enables or disables capturing Mythical Pokémon.
+- **`allowUltraBeastCapture`** *(default: `false`)*: Enables or disables capturing Ultra Beasts.
+- **`disallowedLabels`**: List of Cobblemon labels prohibited from capture and farming.
+- **`speciesBlacklist`**: List of specific Pokémon species identifiers to block (e.g. `["cobblemon:rayquaza"]`).
+- **`speciesWhitelist`**: Optional list. When populated, only species in this list can be captured and farmed.
+
+---
+
 ## ⚠️ Known Limitations
 - The farm requires an inventory block directly beneath it to work. It will not drop items on the ground.
 - When a Farm Ball breaks, the Pokémon inside is permanently lost.
+- **Wild Pokémon Only**: Farm Balls can only capture wild Pokémon. Pokémon belonging to your party, other players, NPCs, tethered to pasture blocks, or currently in battle cannot be captured.
+- **Legendary & Special Restrictions**: By default, Legendary, Mythical, and Ultra Beast Pokémon cannot be captured with Farm Balls or used inside CobbleFarm blocks to preserve game balance (configurable via `config/cobblefarm.json`).
 
 ---
 
