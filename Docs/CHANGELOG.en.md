@@ -5,6 +5,19 @@ All notable changes to the **CobbleFarm** mod will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.1] - 2026-10-20
+
+### Fixed
+- **Owned Pokémon Capture & Infinite Duplication**: Prevented capturing player-owned Pokémon (including the player's own Pokémon and other players' Pokémon), NPC trainer Pokémon, and pasture-tethered Pokémon. Eliminates the exploit where players could repeatedly summon party Pokémon to duplicate infinite Farm Balls.
+- **Race Condition & Multi-Catch Protections**: Enforced strict server-side state checks (`isRemoved`, `isAlive`, `queuedToDespawn`, `isBusy`, `isBattling`) and immediate entity consumption to eliminate race condition duplicates from concurrent clicks or multi-hand interactions.
+- **CobbleFarm GUI & Block Ingestion**: Blocked inserting or shift-clicking Farm Balls containing disallowed Pokémon species directly in `CobbleFarmScreenHandler`, and automatically paused CobbleFarm operations if an active ball contains a disallowed Pokémon.
+
+### Added
+- **Configurable Capture & Farm Restrictions**: Added `config/cobblefarm.json` with toggles for Legendary (`allowLegendaryCapture`, default `false`), Mythical (`allowMythicalCapture`, default `false`), and Ultra Beast (`allowUltraBeastCapture`, default `false`) Pokémon. Includes configurable disallowed label filters (`disallowedLabels`) and custom species blacklists/whitelists.
+- **Localized Feedback Messages**: Added clear translated warning messages when attempting to capture owned Pokémon, pasture Pokémon, Legendary/Mythical Pokémon, or species blacklisted by server configuration.
+
+---
+
 ## [0.6.0] - 2026-10-15
 
 ### Fixed
