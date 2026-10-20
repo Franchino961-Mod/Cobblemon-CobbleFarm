@@ -1,6 +1,7 @@
 package com.cobblefarm.screen;
 
 import com.cobblefarm.blockentity.CobbleFarmBlockEntity;
+import com.cobblefarm.config.CobbleFarmConfig;
 import com.cobblefarm.item.FarmBallItem;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -38,7 +39,7 @@ public class CobbleFarmScreenHandler extends ScreenHandler {
         this.addSlot(new Slot(pokemonSlot, 0, 71, 33) {
             @Override
             public boolean canInsert(ItemStack stack) {
-                return FarmBallItem.hasPokemon(stack) && !this.hasStack();
+                return FarmBallItem.hasPokemon(stack) && CobbleFarmConfig.isPokemonAllowed(stack) && !this.hasStack();
             }
         });
 
@@ -81,7 +82,7 @@ public class CobbleFarmScreenHandler extends ScreenHandler {
             if (index == 0) {
                 if (!this.insertItem(stack, 1, this.slots.size(), true)) return ItemStack.EMPTY;
             } else {
-                if (FarmBallItem.hasPokemon(stack)) {
+                if (FarmBallItem.hasPokemon(stack) && CobbleFarmConfig.isPokemonAllowed(stack)) {
                     if (!this.insertItem(stack, 0, 1, false)) return ItemStack.EMPTY;
                 } else {
                     return ItemStack.EMPTY;
