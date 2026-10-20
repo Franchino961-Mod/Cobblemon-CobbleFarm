@@ -19,8 +19,13 @@
   "tooltip.cobblefarm.farm_ball_empty": "Rechtsklicke auf ein wildes Pokémon, um es zu fangen.",
   "tooltip.cobblefarm.uses_left": "%s / %s Nutzungen verbleibend",
 
+  "message.cobblefarm.cannot_capture_own": "Du kannst deine eigenen Pokémon nicht fangen! Farm-Bälle funktionieren nur bei wilden Pokémon.",
   "message.cobblefarm.cannot_steal_pokemon": "Du kannst das Pokémon eines anderen Spielers nicht fangen!",
-  "message.cobblefarm.pokemon_in_battle": "Dieses Pokémon ist derzeit beschäftigt oder im Kampf!",
-  "message.cobblefarm.cannot_capture_npc": "Du kannst keine NPC-Pokémon fangen!"
+  "message.cobblefarm.cannot_capture_npc": "Du kannst keine NPC-Pokémon fangen!",
+  "message.cobblefarm.cannot_capture_owned": "Du kannst keine Pokémon fangen, die einen Besitzer haben! Farm-Bälle funktionieren nur bei wilden Pokémon.",
+  "message.cobblefarm.cannot_capture_pasture": "Du kannst keine Pokémon auf der Weide fangen!",
+  "message.cobblefarm.cannot_capture_legendary": "Du kannst keine legendären oder mysteriösen Pokémon mit einem Farm-Ball fangen!",
+  "message.cobblefarm.cannot_capture_blacklisted": "Diese Pokémon-Art ist in der CobbleFarm-Konfiguration deaktiviert!",
+  "message.cobblefarm.cannot_capture_disallowed": "Dieses Pokémon ist in der CobbleFarm-Konfiguration nicht erlaubt!",
+  "message.cobblefarm.pokemon_in_battle": "Dieses Pokémon ist derzeit beschäftigt oder im Kampf!"
 }
-
