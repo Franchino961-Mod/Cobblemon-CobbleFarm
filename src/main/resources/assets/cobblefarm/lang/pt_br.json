@@ -19,8 +19,13 @@
   "tooltip.cobblefarm.farm_ball_empty": "Clique com o botão direito em um Pokémon selvagem para capturá-lo.",
   "tooltip.cobblefarm.uses_left": "%s / %s usos restantes",
 
+  "message.cobblefarm.cannot_capture_own": "Você não pode capturar seus próprios Pokémon! Farm Balls só funcionam em Pokémon selvagens.",
   "message.cobblefarm.cannot_steal_pokemon": "Você não pode capturar o Pokémon de outro jogador!",
-  "message.cobblefarm.pokemon_in_battle": "Este Pokémon está ocupado ou em batalha!",
-  "message.cobblefarm.cannot_capture_npc": "Você não pode capturar Pokémon de NPC!"
+  "message.cobblefarm.cannot_capture_npc": "Você não pode capturar Pokémon de NPC!",
+  "message.cobblefarm.cannot_capture_owned": "Você não pode capturar Pokémon que têm dono! Farm Balls só funcionam em Pokémon selvagens.",
+  "message.cobblefarm.cannot_capture_pasture": "Você não pode capturar Pokémon no pasto!",
+  "message.cobblefarm.cannot_capture_legendary": "Você não pode capturar Pokémon Lendários ou Míticos com uma Farm Ball!",
+  "message.cobblefarm.cannot_capture_blacklisted": "Esta espécie de Pokémon está desativada na configuração do CobbleFarm!",
+  "message.cobblefarm.cannot_capture_disallowed": "Este Pokémon não é permitido na configuração do CobbleFarm!",
+  "message.cobblefarm.pokemon_in_battle": "Este Pokémon está ocupado ou em batalha!"
 }
-
