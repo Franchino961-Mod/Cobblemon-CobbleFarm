@@ -19,8 +19,13 @@
   "tooltip.cobblefarm.farm_ball_empty": "Right-click a wild Pokémon to capture it.",
   "tooltip.cobblefarm.uses_left": "%s / %s uses remaining",
 
+  "message.cobblefarm.cannot_capture_own": "You cannot capture your own Pokémon! Farm Balls only work on wild Pokémon.",
   "message.cobblefarm.cannot_steal_pokemon": "You cannot capture another player's Pokémon!",
-  "message.cobblefarm.pokemon_in_battle": "This Pokémon is currently busy or in battle!",
-  "message.cobblefarm.cannot_capture_npc": "You cannot capture NPC Pokémon!"
+  "message.cobblefarm.cannot_capture_npc": "You cannot capture NPC Pokémon!",
+  "message.cobblefarm.cannot_capture_owned": "You cannot capture owned Pokémon! Farm Balls only work on wild Pokémon.",
+  "message.cobblefarm.cannot_capture_pasture": "You cannot capture pastured Pokémon!",
+  "message.cobblefarm.cannot_capture_legendary": "You cannot capture Legendary or Mythical Pokémon with a Farm Ball!",
+  "message.cobblefarm.cannot_capture_blacklisted": "This Pokémon species is disabled for CobbleFarm in the configuration!",
+  "message.cobblefarm.cannot_capture_disallowed": "This Pokémon is not allowed for CobbleFarm in the configuration!",
+  "message.cobblefarm.pokemon_in_battle": "This Pokémon is currently busy or in battle!"
 }
-
