@@ -7,7 +7,7 @@ Automatizza la raccolta degli oggetti dei Pokémon! Un addon per Cobblemon che t
 [![Scarica su CurseForge](https://img.shields.io/badge/Scarica_su-CurseForge-orange?style=for-the-badge&logo=curseforge)](https://www.curseforge.com/minecraft/mc-mods/cobblemon-cobblefarm)
 
 [![Minecraft](https://img.shields.io/badge/Minecraft-1.21.1-green.svg)](https://www.minecraft.net/)
-[![Version](https://img.shields.io/badge/version-0.5.0-blue.svg)]()
+[![Version](https://img.shields.io/badge/version-0.6.1-blue.svg)]()
 [![Fabric](https://img.shields.io/badge/Fabric-0.16.9-blue.svg)](https://fabricmc.net/)
 [![Cobblemon](https://img.shields.io/badge/Cobblemon-1.6.0+-red.svg)](https://cobblemon.com)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](../LICENSE)
@@ -87,9 +87,38 @@ Il tier della farm determina sia la velocità con cui vengono generati i drop, s
 
 ---
 
+## ⚙️ Configurazione
+CobbleFarm genera automaticamente un file di configurazione in `config/cobblefarm.json`:
+
+```json
+{
+  "allowLegendaryCapture": false,
+  "allowMythicalCapture": false,
+  "allowUltraBeastCapture": false,
+  "disallowedLabels": [
+    "legendary",
+    "mythical",
+    "ultra_beast"
+  ],
+  "speciesBlacklist": [],
+  "speciesWhitelist": []
+}
+```
+
+- **`allowLegendaryCapture`** *(default: `false`)*: Abilita o disabilita la cattura dei Pokémon Leggendari con le Farm Ball e il loro utilizzo nelle CobbleFarm.
+- **`allowMythicalCapture`** *(default: `false`)*: Abilita o disabilita la cattura dei Pokémon Mitici.
+- **`allowUltraBeastCapture`** *(default: `false`)*: Abilita o disabilita la cattura delle Ultra Creature.
+- **`disallowedLabels`**: Lista di etichette/label Cobblemon vietate per la cattura e la farm.
+- **`speciesBlacklist`**: Lista di identificatori di specie Pokémon specifici da bloccare (es. `["cobblemon:rayquaza"]`).
+- **`speciesWhitelist`**: Lista opzionale. Se popolata, solo le specie elencate potranno essere catturate e usate nelle farm.
+
+---
+
 ## ⚠️ Limitazioni Note
 - La farm richiede necessariamente un blocco inventario (cassa, barile, ecc.) posizionato direttamente sotto di essa per funzionare. Non lascerà cadere gli oggetti a terra.
 - Quando una Farm Ball si rompe per l'usura, il Pokémon al suo interno viene perso permanentemente.
+- **Solo Pokémon Selvatici**: Le Farm Ball possono catturare unicamente Pokémon selvatici. Non è possibile catturare Pokémon appartenenti alla propria squadra, ad altri giocatori, a NPC, legati a blocchi pascolo (pasture) o impegnati in lotta.
+- **Restrizioni su Leggendari e Speciali**: Di default, i Pokémon Leggendari, Mitici e le Ultra Creature non possono essere catturati né inseriti nelle CobbleFarm per preservare il bilanciamento del gioco (comportamento configurabile tramite `config/cobblefarm.json`).
 
 ---
 
