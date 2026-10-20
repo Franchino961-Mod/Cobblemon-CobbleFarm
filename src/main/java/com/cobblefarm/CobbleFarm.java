@@ -2,6 +2,7 @@ package com.cobblefarm;
 
 import com.cobblefarm.block.CobbleFarmBlocks;
 import com.cobblefarm.blockentity.CobbleFarmBlockEntities;
+import com.cobblefarm.config.CobbleFarmConfig;
 import com.cobblefarm.item.CobbleFarmItems;
 import com.cobblefarm.network.CobbleFarmNetworking;
 import com.cobblefarm.screen.CobbleFarmScreenHandlers;
@@ -28,6 +29,7 @@ public class CobbleFarm implements ModInitializer {
     public void onInitialize() {
         LOGGER.info("CobbleFarm initializing...");
 
+        CobbleFarmConfig.load();
         CobbleFarmItems.register();
         CobbleFarmBlocks.register();
         CobbleFarmBlockEntities.register();
