@@ -177,13 +177,14 @@ node_modules/
 # =========================
 
 Docs/*
+!Docs/*.md
 !README.*.md
 !CHANGELOG.*.md
 !assets/
 
 # Local scripting and backups
 backup/
-config/
+/config/
 *.ps1
 *.bat
 *.cmd
